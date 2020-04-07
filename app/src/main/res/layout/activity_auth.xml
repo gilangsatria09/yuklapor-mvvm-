@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.gproduction.yuklapor.ui.auth.AuthViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:background="@color/colorBackground"
+            tools:context=".ui.auth.AuthActivity">
+
+            <LinearLayout
+                android:id="@+id/linearRegistrasi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_25sdp">
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserratbold"
+                    android:text="@string/daftarkan_akunmu"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_18sdp"/>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/linearWelcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/frameForm"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp">
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/selamat_datang"
+                    android:textSize="@dimen/_24sdp"
+                    android:fontFamily="@font/montserratbold"
+                    android:textColor="@android:color/black"/>
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/di_aplikasi_yuk_lapor"
+                    android:textSize="@dimen/_15sdp"
+                    android:fontFamily="@font/montserratregular"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/frameForm"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_370sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_30sdp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/username"
+                            android:layout_marginBottom="@dimen/_6sdp"/>
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etUsername"
+                            style="@style/editTextAuth"
+                            android:text="@={viewmodel.email}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="gilang"
+                            android:importantForAutofill="no" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:text="@string/password" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etPasswordLayout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:importantForAutofill="no"
+                            app:hintEnabled="true"
+                            app:passwordToggleDrawable="@drawable/show_password_selector"
+                            app:passwordToggleEnabled="true">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPassword"
+                                style="@style/editTextAuth"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPassword|textNoSuggestions"
+                                android:text="@={viewmodel.password}"
+                                tools:text="gilang" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <Button
+                            android:onClick="@{(v)->viewmodel.onButtonClick(v)}"
+                            android:id="@+id/buttonLogin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_40sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@color/colorPrimary"
+                            android:text="@string/masuk"
+                            android:fontFamily="@font/monserratsemibold"
+                            android:textAllCaps="false"
+                            android:padding="@dimen/_8sdp"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/_14sdp" />
+                        <TextView
+                            android:onClick="@{()->viewmodel.onRegistrasiClick()}"
+                            android:id="@+id/tvBelumPunyaAkun"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/belum_punya_akun_klik_disini"
+                            android:gravity="center"
+                            android:fontFamily="@font/montserratregular"
+                            android:textColor="@android:color/black"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            android:id="@+id/bottomSheet"
+            layout="@layout/bottom_sheet_register"
+            app:registerViewModel="@{viewmodel}"
+            />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

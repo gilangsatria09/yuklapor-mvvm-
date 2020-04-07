@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Yuk Lapor!</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="masuk">Masuk</string>
+    <string name="selamat_datang">Selamat Datang</string>
+    <string name="di_aplikasi_yuk_lapor">Di Aplikasi Yuk Lapor</string>
+    <string name="belum_punya_akun_klik_disini">Belum Punya Akun? Klik Disini!</string>
+    <string name="nik">NIK</string>
+    <string name="namalengkap">Nama Lengkap</string>
+    <string name="notelepon">Nomor Telepon</string>
+    <string name="daftarkan_akunmu">Daftarkan Akunmu</string>
+    <string name="email">Email</string>
+    <string name="daftar_laporan">Daftar Laporan</string>
+    <string name="berita">Berita</string>
+    <string name="laporan_terakhir_kamu">Laporan Terakhir Kamu.</string>
+    <string name="mohon_tunggu_sebentar">Mohon Tunggu Sebentar</string>
+    <string name="confirmpassword">Confirm Password</string>
+    <string name="home">Home</string>
+    <string name="laporkan">Laporkan</string>
+    <string name="profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="halo">Halo,</string>
+    <string name="masukkan_gambar">Masukkan Gambar</string>
+    <string name="image_laporan">Image Laporan</string>
+    <string name="tanda_plus">Icon Plus</string>
+    <string name="isi_laporan">Isi Laporan</string>
+    <string name="judul_laporan">Judul Laporan</string>
+    <string name="tambah_foto">Tambah Foto</string>
+    <string name="from_freepik">From Freepik</string>
+    <string name="kamera">Kamera</string>
+    <string name="galeri">Galeri</string>
+</resources>

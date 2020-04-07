@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.gproduction.yuklapor.ui.home.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground">
+
+        <LinearLayout
+            android:id="@+id/linearWelcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/cardBg"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/halo"
+                android:textSize="@dimen/_15sdp"
+                android:fontFamily="@font/montserratregular"
+                android:textColor="@android:color/black"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/namaUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Gilang Satria"
+                android:textSize="@dimen/_20sdp"
+                android:fontFamily="@font/montserratbold"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardBg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_370sdp"
+            android:background="@drawable/bg_card_rounded"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardDaftarLaporan"
+                        android:layout_width="@dimen/_110sdp"
+                        android:layout_height="@dimen/_110sdp"
+                        android:onClick="@{()->viewmodel.daftarLaporanOnClick()}"
+                        android:layout_marginStart="@dimen/_25sdp"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        app:cardCornerRadius="@dimen/_15sdp"
+                        android:elevation="@dimen/_5sdp">
+
+                        <LinearLayout
+                            android:background="?attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_40sdp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_note" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/_15sdp"
+                                android:text="@string/daftar_laporan"
+                                android:padding="@dimen/_8sdp"
+                                android:textColor="@android:color/white"
+                                android:gravity="center"
+                                android:fontFamily="@font/monserratmedium"/>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardBerita"
+                        android:layout_width="@dimen/_110sdp"
+                        android:layout_height="@dimen/_110sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/_25sdp"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        app:cardCornerRadius="@dimen/_15sdp"
+                        android:elevation="@dimen/_3sdp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            >
+
+                            <ImageView
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_berita" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/_15sdp"
+                                android:text="@string/berita"
+                                android:padding="@dimen/_8sdp"
+                                android:textColor="@android:color/white"
+                                android:gravity="center"
+                                android:fontFamily="@font/monserratmedium"/>
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tvLaporan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/laporan_terakhir_kamu"
+                    android:fontFamily="@font/monserratmedium"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintTop_toBottomOf="@id/relativeLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal"
+                    tools:listitem="@layout/item_laporan_home"
+                    app:layout_constraintTop_toBottomOf="@id/tvLaporan"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

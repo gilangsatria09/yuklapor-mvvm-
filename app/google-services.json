@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "508757098601",
+    "firebase_url": "https://yuk-lapor.firebaseio.com",
+    "project_id": "yuk-lapor",
+    "storage_bucket": "yuk-lapor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508757098601:android:11cd08349fe70d701da2f8",
+        "android_client_info": {
+          "package_name": "com.gproduction.yuklapor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508757098601-bhmpnr48cmbntbefn45e6a4gucdal8uc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gproduction.yuklapor",
+            "certificate_hash": "361b32718d3a013591cd62e538e3cc8ae21b32e1"
+          }
+        },
+        {
+          "client_id": "508757098601-k8kuqbmn1ee48qupkjoi07ujvvu8ot2q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIoKr-dnsy0dgs97hz78Sio6RL-F4vOV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508757098601-k8kuqbmn1ee48qupkjoi07ujvvu8ot2q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

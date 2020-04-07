@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.gproduction.yuklapor.ui.daftarlaporan.DaftarLaporanViewModel" />
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.daftarlaporan.main.DaftarLaporanActivity">
+
+        <include
+            layout="@layout/toolbar"
+            />
+
+        <FrameLayout
+            android:id="@+id/mainFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+            <FrameLayout
+                android:id="@+id/fragmentContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/_20sdp"
+                android:src="@drawable/ic_add_white"
+                app:backgroundTint="@color/colorPrimaryDark"
+                />
+        </FrameLayout>
+    </LinearLayout>
+</layout>
