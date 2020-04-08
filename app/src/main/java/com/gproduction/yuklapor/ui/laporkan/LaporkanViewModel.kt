@@ -44,13 +44,14 @@ class LaporkanViewModel:ViewModel() {
         tanggal = formatter.format(calendar)
 
         val model = LaporkanModel(
+            null,
             uid,
             null,
             nik,
             judul,
             content,
             tanggal,
-            0
+            "0"
         )
 
         val register = LaporkanRepository().insertLaporan(byte,model)

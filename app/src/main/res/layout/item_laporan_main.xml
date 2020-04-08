@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="model"
+            type="com.gproduction.yuklapor.data.model.LaporkanModel" />
+        <variable
+            name="viewmodel"
+            type="com.gproduction.yuklapor.ui.daftarlaporan.DaftarLaporanViewModel" />
+    </data>
+
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_225sdp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="@dimen/_6sdp"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:layout_margin="@dimen/_10sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
+            android:backgroundTint="@android:color/white"
+            android:focusable="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    urlSemuaLaporan="@{model.imageUrl}"
+                    context="@{context}"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_75sdp"
+                    android:src="@drawable/pexels_photo_417173"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="image From Firebase"
+                    tools:ignore="HardcodedText" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/_10sdp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            tools:text="Masalah Air Tersumbat"
+                            android:text="@{model.judul}"
+                            android:textSize="@dimen/_11sdp"
+                            android:fontFamily="@font/montserratbold"
+                            android:textColor="@android:color/black"/>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="@dimen/_10sdp"
+                            tools:text="20/03/2020"
+                            android:text="@{model.tanggal}"
+                            android:gravity="end"
+                            android:fontFamily="@font/monserratmedium"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:weightSum="3">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            tools:text="Masalah Air Tersumbat"
+                            android:text="@{model.content}"
+                            android:textSize="@dimen/_10sdp"
+                            android:fontFamily="@font/monserratmedium"
+                            android:maxLines="4"
+                            android:ellipsize="end"
+                            android:textColor="@android:color/black"/>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            status="@{model.status}"
+                            context="@{context}"
+                            android:fontFamily="@font/monserratmedium"
+                            android:textColor="@android:color/white"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:paddingTop="@dimen/_3sdp"
+                            android:paddingEnd="@dimen/_18sdp"
+                            android:paddingStart="@dimen/_18sdp"
+                            android:paddingBottom="@dimen/_3sdp"
+                            android:background="@drawable/bg_status_rounded"
+                            android:backgroundTint="@color/colorPrimaryDark"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</layout>

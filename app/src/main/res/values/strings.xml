@@ -32,4 +32,7 @@
     <string name="from_freepik">From Freepik</string>
     <string name="kamera">Kamera</string>
     <string name="galeri">Galeri</string>
+    <string name="belum_diproses">Belum Diproses</string>
+    <string name="diproses">Diproses</string>
+    <string name="selesai">Selesai</string>
 </resources>

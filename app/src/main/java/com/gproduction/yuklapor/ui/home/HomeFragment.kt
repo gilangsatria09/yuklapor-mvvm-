@@ -12,13 +12,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.gproduction.yuklapor.R
+import com.gproduction.yuklapor.data.Resource
+import com.gproduction.yuklapor.data.Status
+import com.gproduction.yuklapor.data.model.LaporkanModel
 import com.gproduction.yuklapor.data.model.UserModel
 import com.gproduction.yuklapor.databinding.FragmentHomeBinding
 import com.gproduction.yuklapor.tools.SharedPreferences
 import com.gproduction.yuklapor.tools.toast
 import com.gproduction.yuklapor.ui.daftarlaporan.main.DaftarLaporanActivity
+import com.gproduction.yuklapor.ui.home.adapter.HomeRVAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -42,6 +49,7 @@ class HomeFragment : Fragment(),HomeInterface {
 
         sharedPreferences.getUid()?.let {
             viewModel.getUserData(it)
+            viewModel.getAllDataLaporan(it)
         }
 
         return binding.root
@@ -50,11 +58,18 @@ class HomeFragment : Fragment(),HomeInterface {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-
     }
 
     private fun initView(){
         cardBg.background = requireActivity().getDrawable(R.drawable.bg_card_rounded)
+    }
+
+    private fun settingRecyclerView(list:ArrayList<LaporkanModel>){
+        list.reverse()
+        rvLaporanHome.apply {
+            layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+            adapter = HomeRVAdapter(list,viewModel)
+        }
     }
 
     companion object{
@@ -75,6 +90,20 @@ class HomeFragment : Fragment(),HomeInterface {
                 requireContext().toast("GAGAL")
             }
         })
+    }
+
+    override fun getAllDataLaporan(data: LiveData<Resource<ArrayList<LaporkanModel>>>) {
+        data.observe(this, Observer {
+            when(it.status){
+                Status.SUCCESS ->{
+                    settingRecyclerView(it.data!!)
+                }
+            }
+        })
+    }
+
+    override fun onCardClicked(model: LaporkanModel) {
+        requireContext().toast(model.judul!!)
     }
 
     override fun onDaftarLaporanClicked() {

@@ -5,6 +5,7 @@ const val USERNAME = "username"
 const val NIK = "nik"
 const val NOHP = "noHp"
 const val LAPORAN = "laporan"
+const val STATUS = "status"
 
 const val SHAREDPREFERENCESNAME = "yuk-lapor-sharedpreferences"
 const val SHARED_UID = "uid"
