@@ -18,6 +18,7 @@
         android:layout_height="@dimen/_225sdp">
 
         <androidx.cardview.widget.CardView
+            android:onClick="@{(v)->viewmodel.onCardClicked(model)}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="@dimen/_6sdp"

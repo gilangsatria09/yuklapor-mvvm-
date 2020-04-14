@@ -6,4 +6,5 @@ import com.gproduction.yuklapor.data.model.LaporkanModel
 
 interface DaftarLaporanInterface{
     fun onSuccess(data:LiveData<Resource<ArrayList<LaporkanModel>>>)
+    fun onCardClicked(data:LaporkanModel)
 }

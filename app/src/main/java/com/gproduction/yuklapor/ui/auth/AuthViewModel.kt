@@ -1,6 +1,5 @@
 package com.gproduction.yuklapor.ui.auth
 
-import android.view.View
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -10,7 +9,6 @@ class AuthViewModel : ViewModel() {
     var email: String? = null
     var nik: String? = null
     var nama: String? = null
-    var username: String? = null
     var password: String? = null
     var confirmPassword: String? = null
     var noHp: String? = null
@@ -18,7 +16,7 @@ class AuthViewModel : ViewModel() {
     var authInterface: AuthInterface? = null
 
 
-    fun onButtonClick(view: View) {
+    fun onButtonClick() {
         if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
             authInterface?.onFailed("Harap masukan username dan password!")
             return
@@ -32,8 +30,8 @@ class AuthViewModel : ViewModel() {
         authInterface?.buttomSheetState()
     }
 
-    fun onButtonRegistrasiClick(view: View) {
-        if (nik?.trim().isNullOrEmpty() || email?.trim().isNullOrEmpty() || username?.trim().isNullOrEmpty() || password?.trim().isNullOrEmpty() || nama?.trim().isNullOrEmpty() || noHp?.trim().isNullOrEmpty()) {
+    fun onButtonRegistrasiClick() {
+        if (nik?.trim().isNullOrEmpty() || email?.trim().isNullOrEmpty() || password?.trim().isNullOrEmpty() || nama?.trim().isNullOrEmpty() || noHp?.trim().isNullOrEmpty()) {
             authInterface?.onFailed("Harap Lengkapi Data yang Ada!")
             return
         }
@@ -41,12 +39,8 @@ class AuthViewModel : ViewModel() {
             authInterface?.onFailed("Password Tidak Sama!")
             return
         }
-        if (username!!.contains("@")){
-            authInterface?.onFailed("Format username salah!")
-            return
-        }
 
-        val checkDuplicateData = UserRepository().checkDuplicateData(nik!!,username!!,noHp!!)
+        val checkDuplicateData = UserRepository().checkDuplicateData(nik!!,noHp!!)
         authInterface?.onChecked(checkDuplicateData)
 
     }
@@ -54,7 +48,6 @@ class AuthViewModel : ViewModel() {
     fun onAllChecked(){
         val firebaseRegister = UserRepository().userRegister(email!!, password!!)
         authInterface?.onRegister(firebaseRegister)
-        authInterface?.onLoading()
     }
 
     fun registerToDatabase(authResult: AuthResult?) {
@@ -65,8 +58,8 @@ class AuthViewModel : ViewModel() {
                 nik!!,
                 nama!!,
                 email!!,
-                username!!,
-                noHp!!
+                noHp!!,
+                0
             )
         }
     }
@@ -81,8 +74,8 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun getNIK(uid:String){
-        val nik = UserRepository().getNIK(uid)
-        authInterface?.onGetNik(nik)
+    fun getUserData(uid:String){
+        val data = UserRepository().getUserData(uid)
+        authInterface?.onGetUserData(data)
     }
 }

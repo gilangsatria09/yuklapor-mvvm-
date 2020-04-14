@@ -6,21 +6,31 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 
 import com.gproduction.yuklapor.R
+import com.gproduction.yuklapor.databinding.FragmentProfileBinding
 import com.gproduction.yuklapor.ui.home.HomeFragment
 
 /**
  * A simple [Fragment] subclass.
  */
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), ProfileInterface {
+    private val viewModel by lazy{
+        ViewModelProvider(this).get(ProfileViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+
+        val binding:FragmentProfileBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile, container, false)
+        binding.viewmodel = viewModel
+        viewModel.profileInterface = this
+
+        return binding.root
     }
 
     companion object{
@@ -30,6 +40,13 @@ class ProfileFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
+    }
+
+    override fun onCardProfileClicked() {
+
+    }
+
+    override fun onCardRegistrasiClicked() {
     }
 
 }

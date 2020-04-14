@@ -17,23 +17,26 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     var homeInterface:HomeInterface? = null
     val context:Context = application.applicationContext
 
-    fun getUserData(uid:String){
-        val data = UserRepository().getUserData(uid)
-        homeInterface?.getUserData(data)
-    }
 
     fun daftarLaporanOnClick(){
        homeInterface?.onDaftarLaporanClicked()
+    }
+
+    fun beritaClicked(){
+        homeInterface?.onBeritaClicked()
     }
 
     fun onCardClick(model:LaporkanModel){
         homeInterface?.onCardClicked(model)
     }
 
-    fun getAllDataLaporan(uid:String){
+    fun getAllDataLaporanByUID(uid:String){
         val data = LaporkanRepository().getAllLaporanByUID(uid)
         homeInterface?.getAllDataLaporan(data)
     }
-
+    fun getAllData(){
+        val data = LaporkanRepository().getAllLaporan()
+        homeInterface?.getAllDataLaporan(data)
+    }
 
 }

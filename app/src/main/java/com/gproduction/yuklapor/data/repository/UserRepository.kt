@@ -25,6 +25,7 @@ class UserRepository {
     fun userLogin(email: String, password: String): LiveData<Resource<AuthResult>> {
 
         val loginResult = MutableLiveData<Resource<AuthResult>>()
+        loginResult.value = Resource.loading(null)
 
         mAuth.signInWithEmailAndPassword(email,password)
             .addOnCompleteListener {
@@ -39,8 +40,10 @@ class UserRepository {
         return loginResult
     }
 
+
     fun userRegister(email: String, password: String): LiveData<Resource<AuthResult>> {
         val authResult = MutableLiveData<Resource<AuthResult>>()
+        authResult.value = Resource.loading(null)
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -52,19 +55,19 @@ class UserRepository {
         return authResult
     }
 
-    fun registerToDatabase(uid: String,nik:String,nama: String, email: String?, username:String,telepon:String) {
+    fun registerToDatabase(uid: String,nik:String,nama: String, email: String?,telepon:String,role:Int) {
         val userModel = UserModel(
             nik,
             nama,
             email,
-            username,
-            telepon
+            telepon,
+            role
         )
 
         database.child(USERS).child(uid).setValue(userModel)
     }
 
-    fun checkDuplicateData(nik: String,username: String,noHp:String): LiveData<Resource<Boolean>>{
+    fun checkDuplicateData(nik: String,noHp:String): LiveData<Resource<Boolean>>{
         val boolean = MutableLiveData<Resource<Boolean>>()
         database.child(USERS).orderByChild("nik").addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
@@ -73,13 +76,6 @@ class UserRepository {
                     snapshot.child(NIK).value?.let {
                         if (it == nik){
                             boolean.value = Resource.error("NIK Sudah Ada!",false)
-                            checked = false
-                            return
-                        }
-                    }
-                    snapshot.child(USERNAME).value?.let {
-                        if (it == username){
-                            boolean.value = Resource.error("Username sudah ada!", false)
                             checked = false
                             return
                         }
@@ -106,30 +102,18 @@ class UserRepository {
         return boolean
     }
 
-     fun getUserData(uid:String) : LiveData<UserModel>{
-        val userData = MutableLiveData<UserModel>()
+     fun getUserData(uid:String) : LiveData<Resource<UserModel>>{
+        val userData = MutableLiveData<Resource<UserModel>>()
         database.child(USERS).child(uid).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
-                userData.value = p0.getValue(UserModel::class.java)
+                val userModel:UserModel? = p0.getValue(UserModel::class.java)
+                userData.value = Resource.success(userModel)
             }
             override fun onCancelled(p0: DatabaseError) {
-                userData.value = null
+                userData.value = Resource.error("Gagal!",null)
             }
         })
         return userData
-    }
-
-    fun getNIK(uid:String) : LiveData<String>{
-        val nik = MutableLiveData<String>()
-        database.child(USERS).child(uid).addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(p0: DataSnapshot) {
-                nik.value = p0.child("nik").value.toString()
-            }
-            override fun onCancelled(p0: DatabaseError) {
-                nik.value = null
-            }
-        })
-        return nik
     }
 
 }

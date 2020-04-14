@@ -6,6 +6,6 @@ data class UserModel(
     val nik:String?=null,
     val nama:String? = null,
     val email:String? = null,
-    val username:String?=null,
-    val noHp:String?=null
+    val noHp:String?=null,
+    val role:Int?=null
 )

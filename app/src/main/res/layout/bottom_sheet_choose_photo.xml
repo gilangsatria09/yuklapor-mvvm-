@@ -28,6 +28,7 @@
             android:orientation="horizontal"
             android:layout_marginBottom="@dimen/_10sdp">
             <ImageView
+                android:id="@+id/imgCamera"
                 android:onClick="@{()->viewmodel.cameraOnClick()}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -36,6 +37,8 @@
                 android:contentDescription="@string/from_freepik"/>
 
             <ImageView
+                android:id="@+id/imgGallery"
+                android:onClick="@{()->viewmodel.galleryOnClick()}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_gallery"

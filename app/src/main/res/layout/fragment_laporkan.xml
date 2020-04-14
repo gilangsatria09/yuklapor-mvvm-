@@ -6,6 +6,9 @@
         <variable
             name="viewmodel"
             type="com.gproduction.yuklapor.ui.laporkan.LaporkanViewModel" />
+        <variable
+            name="model"
+            type="com.gproduction.yuklapor.data.model.LaporkanModel" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +24,8 @@
             android:paddingStart="@dimen/_12sdp"
             android:paddingEnd="@dimen/_12sdp"
             android:paddingTop="@dimen/_15sdp"
-            android:paddingBottom="@dimen/_15sdp">
+            android:paddingBottom="@dimen/_15sdp"
+            tools:ignore="UselessParent">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -41,6 +45,7 @@
 
                 <ImageView
                     android:id="@+id/addImage"
+                    android:scaleType="centerCrop"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/image_laporan"
@@ -58,7 +63,7 @@
             </FrameLayout>
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etUsername"
+                android:id="@+id/etJudulLaporan"
                 style="@style/editTextAuth"
                 android:layout_marginTop="@dimen/_25sdp"
                 android:text="@={viewmodel.judul}"
@@ -66,6 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Judul Laporan"
+                android:inputType="textCapWords"
                 android:importantForAutofill="no" />
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etContent"
@@ -75,25 +81,18 @@
                 android:hint="@string/isi_laporan"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_150sdp"
-                android:inputType="text|textMultiLine"
+                android:inputType="text|textMultiLine|textCapSentences"
                 tools:text="Judul Laporan"
                 android:gravity="top"
                 android:importantForAutofill="no" />
 
             <Button
-                android:onClick="@{()->viewmodel.laporkanOnClick()}"
+                android:id="@+id/buttonLaporkan"
+                android:onClick="@{(v)->viewmodel.laporkanOnClick(v,model)}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:text="@string/laporkan"
-                android:gravity="center"
-                android:fontFamily="@font/monserratsemibold"
-                android:textAllCaps="false"
-                android:textSize="@dimen/_12sdp"
-                android:paddingTop="@dimen/_8sdp"
-                android:paddingBottom="@dimen/_8sdp"
-                android:paddingEnd="@dimen/_16sdp"
-                android:paddingStart="@dimen/_16sdp"
+                style="@style/buttonStyle"
                 android:layout_marginTop="@dimen/_29sdp"
                 />
 

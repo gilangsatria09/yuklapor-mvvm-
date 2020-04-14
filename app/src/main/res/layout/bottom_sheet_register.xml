@@ -92,23 +92,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_14sdp"
-                    android:text="@string/username" />
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etUsernameBottom"
-                    style="@style/editTextAuth"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
-                    android:importantForAutofill="no"
-                    android:text="@={registerViewModel.username}"
-                    tools:text="gilang" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_14sdp"
                     android:text="@string/password" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -188,9 +171,9 @@
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@color/colorPrimary"
                     android:fontFamily="@font/monserratsemibold"
-                    android:onClick="@{(v)->registerViewModel.onButtonRegistrasiClick(v)}"
+                    android:onClick="@{()->registerViewModel.onButtonRegistrasiClick()}"
                     android:padding="@dimen/_8sdp"
-                    android:text="@string/masuk"
+                    android:text="@string/daftar"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_14sdp" />

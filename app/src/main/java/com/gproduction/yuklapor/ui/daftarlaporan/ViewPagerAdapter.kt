@@ -1,5 +1,6 @@
 package com.gproduction.yuklapor.ui.daftarlaporan
 
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -22,6 +23,14 @@ class ViewPagerAdapter(fm:FragmentManager):FragmentPagerAdapter(fm,BEHAVIOR_RESU
 
     override fun getCount(): Int {
         return pages.size
+    }
+
+    override fun saveState(): Parcelable? {
+        return null
+    }
+
+    override fun restoreState(state: Parcelable?, loader: ClassLoader?) {
+
     }
 
 }

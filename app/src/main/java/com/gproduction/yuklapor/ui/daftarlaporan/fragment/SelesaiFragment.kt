@@ -1,7 +1,9 @@
 package com.gproduction.yuklapor.ui.daftarlaporan.fragment
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +18,13 @@ import com.gproduction.yuklapor.data.Resource
 import com.gproduction.yuklapor.data.Status
 import com.gproduction.yuklapor.data.model.LaporkanModel
 import com.gproduction.yuklapor.databinding.FragmentSelesaiBinding
+import com.gproduction.yuklapor.tools.DATA_LAPORKAN
 import com.gproduction.yuklapor.tools.SharedPreferences
 import com.gproduction.yuklapor.tools.toast
 import com.gproduction.yuklapor.ui.daftarlaporan.DaftarLaporanInterface
 import com.gproduction.yuklapor.ui.daftarlaporan.DaftarLaporanViewModel
 import com.gproduction.yuklapor.ui.daftarlaporan.adapter.SelesaiRVAdapter
+import com.gproduction.yuklapor.ui.detaillaporan.DetailLaporanActivity
 import kotlinx.android.synthetic.main.fragment_selesai.*
 
 /**
@@ -42,9 +46,15 @@ class SelesaiFragment : Fragment(),DaftarLaporanInterface {
 
         viewModel.daftarLaporanInterface = this
 
-        sharedPreferences.getUid()?.let {
-            viewModel.getDataSelesai(it)
+        when(sharedPreferences.getRole()){
+            0 -> {
+                sharedPreferences.getUid()?.let {
+                    viewModel.getDataSelesai(it)
+                }
+            }
+            1 -> viewModel.getDataSelesai()
         }
+
 
         return binding.root
     }
@@ -61,8 +71,21 @@ class SelesaiFragment : Fragment(),DaftarLaporanInterface {
                     requireContext().toast(it.message!!)
                     rvSemuaLaporan.visibility = View.GONE
                 }
+                else -> Log.d("Nothing","Nothing")
             }
         })
+    }
+
+    override fun onCardClicked(data: LaporkanModel) {
+        val intent = Intent(requireContext(), DetailLaporanActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable(DATA_LAPORKAN,data)
+
+        intent.apply {
+            putExtras(bundle)
+        }
+
+        startActivity(intent)
     }
 
     private fun setRecyclerView(list:ArrayList<LaporkanModel>){

@@ -12,5 +12,6 @@ class CustomDialog(context: Context):Dialog(context){
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.layout_custom_dialog)
         setCanceledOnTouchOutside(false)
+        setCancelable(false)
     }
 }

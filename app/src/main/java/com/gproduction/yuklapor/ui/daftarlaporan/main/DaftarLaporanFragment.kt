@@ -19,13 +19,12 @@ import kotlinx.android.synthetic.main.fragment_daftar_laporan.*
 class DaftarLaporanFragment(private var toolbar: Toolbar) : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         return inflater.inflate(R.layout.fragment_daftar_laporan, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewPager.adapter = ViewPagerAdapter(requireActivity().supportFragmentManager)
+        viewPager.adapter = ViewPagerAdapter(childFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
         setTabIcon()
 
@@ -45,7 +44,9 @@ class DaftarLaporanFragment(private var toolbar: Toolbar) : Fragment() {
             }
 
         })
+
     }
+
 
     private fun setTabIcon() {
         tabLayout.getTabAt(0)?.icon = requireActivity().getDrawable(R.drawable.ic_note)

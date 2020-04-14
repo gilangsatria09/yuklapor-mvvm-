@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
@@ -15,26 +16,28 @@ import com.gproduction.yuklapor.tools.toast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.*
 import com.gproduction.yuklapor.data.Resource
-import com.gproduction.yuklapor.data.Status
+import com.gproduction.yuklapor.data.Status.*
+import com.gproduction.yuklapor.data.model.UserModel
 import com.gproduction.yuklapor.tools.CustomDialog
 import com.gproduction.yuklapor.tools.SharedPreferences
-import com.gproduction.yuklapor.ui.MainActivity
+import com.gproduction.yuklapor.tools.showDialog
+import com.gproduction.yuklapor.ui.MainActivityAdmin
+import com.gproduction.yuklapor.ui.MainActivityMasyarakat
 import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.android.synthetic.main.bottom_sheet_register.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class AuthActivity : AppCompatActivity(),
     AuthInterface {
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
     private lateinit var viewModel: AuthViewModel
-    private lateinit var dialog: CustomDialog
 
     private val sharedPreferences by lazy {
         SharedPreferences(applicationContext)
+    }
+
+    private val dialog by lazy{
+        CustomDialog(this@AuthActivity)
     }
 
 
@@ -54,9 +57,6 @@ class AuthActivity : AppCompatActivity(),
         //Init a Bottom Sheet for Registration
         initBottomSheet(bottomSheet)
 
-        //Call a Custom Dialog Class
-        dialog = CustomDialog(this@AuthActivity)
-
         //Make Top Right and Left of a Card is rounded
         cardBackground.background = getDrawable(R.drawable.bg_card_rounded)
 
@@ -64,8 +64,16 @@ class AuthActivity : AppCompatActivity(),
 
     override fun onStarted(isLoggedIn: Boolean) {
         if (isLoggedIn) {
-            val intent = Intent(this@AuthActivity, MainActivity::class.java)
-            startActivity(intent)
+            when(sharedPreferences.getRole()){
+                0 -> {
+                    val intent = Intent(this@AuthActivity, MainActivityMasyarakat::class.java)
+                    startActivity(intent)
+                }
+                1 -> {
+                    val intent = Intent(this@AuthActivity,MainActivityAdmin::class.java)
+                    startActivity(intent)
+                }
+            }
         } else {
             toast("Anda Harus Login Terlebih Dahulu!")
         }
@@ -75,19 +83,17 @@ class AuthActivity : AppCompatActivity(),
 
         loginResponse.observe(this, Observer {
             when (it.status) {
-                Status.SUCCESS -> {
-                    val intent = Intent(this@AuthActivity, MainActivity::class.java)
-                    startActivity(intent)
+                SUCCESS -> {
+                    dialog.dismiss()
                     sharedPreferences.setUid(it.data?.user?.uid)
-
-                    GlobalScope.launch {
-                        getNIKBackground(it.data?.user?.uid.toString())
-                    }
-
-                    toast("Berhasil Login, ${it.data?.user?.uid}")
+                    viewModel.getUserData(it.data?.user?.uid!!)
                 }
-                Status.ERROR -> toast("${it.message}")
-                Status.LOADING -> TODO()
+                ERROR -> {
+                    dialog.dismiss()
+                    toast("${it.message}")
+                }
+                LOADING -> dialog.show()
+                ERRORTHROWABLE -> TODO()
             }
         })
 
@@ -96,7 +102,8 @@ class AuthActivity : AppCompatActivity(),
     override fun onRegister(firebaseUser: LiveData<Resource<AuthResult>>) {
         firebaseUser.observe(this, Observer {
             when (it.status) {
-                Status.SUCCESS -> {
+                SUCCESS -> {
+                    dialog.dismiss()
                     viewModel.registerToDatabase(it.data)
                     toast("Registrasi Sukses!")
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -107,14 +114,13 @@ class AuthActivity : AppCompatActivity(),
                     etEmailBottom.text = null
                     etPasswordBottom.text = null
 
-
-                    dialog.dismiss()
                 }
-                Status.ERROR -> {
+                ERROR -> {
                     toast("${it.message}")
                     dialog.dismiss()
                 }
-                Status.ERRORTHROWABLE -> {
+                ERRORTHROWABLE -> {
+                    showDialog().dismiss()
                     when (it.exception) {
                         is FirebaseAuthInvalidCredentialsException -> {
                             toast("Format Email Salah!")
@@ -127,8 +133,8 @@ class AuthActivity : AppCompatActivity(),
                         }
                         else -> toast("Gagal Register, Periksa Data Terlebih Dahulu!")
                     }
-                    dialog.dismiss()
                 }
+                LOADING -> dialog.dismiss()
             }
         })
     }
@@ -136,10 +142,6 @@ class AuthActivity : AppCompatActivity(),
     override fun onFailed(pesan: String) {
         toast(pesan)
 
-    }
-
-    override fun onLoading() {
-        dialog.show()
     }
 
     override fun buttomSheetState() {
@@ -153,19 +155,45 @@ class AuthActivity : AppCompatActivity(),
     override fun onChecked(boolean: LiveData<Resource<Boolean>>) {
         boolean.observe(this, Observer {
             when (it.status){
-                Status.SUCCESS ->{
+                SUCCESS ->{
                     viewModel.onAllChecked()
                 }
-                Status.ERROR -> {
+                ERROR -> {
                     toast("${it.message}")
                 }
+                ERRORTHROWABLE -> TODO()
+                LOADING -> TODO()
             }
         })
     }
 
-    override fun onGetNik(string: LiveData<String>) {
-        string.observe(this, Observer {
-            sharedPreferences.setNik(it)
+
+    override fun onGetUserData(data: LiveData<Resource<UserModel>>) {
+        data.observe(this, Observer { resource ->
+            when(resource.status){
+                SUCCESS -> {
+                    resource.data?.let {
+                        sharedPreferences.setNik(it.nik)
+                        sharedPreferences.setRole(it.role!!)
+                        sharedPreferences.setNama(it.nama)
+                        when(it.role){
+                            0 -> {
+                                showDialog().dismiss()
+                                val intent = Intent(this@AuthActivity,MainActivityMasyarakat::class.java)
+                                startActivity(intent)
+                            }
+                            1 -> {
+                                showDialog().dismiss()
+                                val intent = Intent(this@AuthActivity,MainActivityAdmin::class.java)
+                                startActivity(intent)
+                            }
+                        }
+                    }
+                }
+                ERROR -> TODO()
+                ERRORTHROWABLE -> TODO()
+                LOADING -> TODO()
+            }
         })
     }
 
@@ -199,11 +227,5 @@ class AuthActivity : AppCompatActivity(),
             }
         })
     }
-
-    //I'm Just testing it, but it works. But i don't know how to use it properly so..
-    suspend fun getNIKBackground(uid:String) = withContext(Dispatchers.Main){
-        viewModel.getNIK(uid)
-    }
-
 
 }

@@ -12,17 +12,19 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
+            android:orientation="vertical"
             android:background="@color/colorBackground"
             tools:context=".ui.auth.AuthActivity">
 
             <LinearLayout
                 android:id="@+id/linearRegistrasi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -42,10 +44,12 @@
             <LinearLayout
                 android:id="@+id/linearWelcome"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 app:layout_constraintBottom_toTopOf="@id/frameForm"
                 app:layout_constraintTop_toTopOf="parent"
                 android:orientation="vertical"
+                android:gravity="center_vertical"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_15sdp">
                 <com.google.android.material.textview.MaterialTextView
@@ -67,7 +71,8 @@
             <FrameLayout
                 android:id="@+id/frameForm"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_370sdp"
+                android:layout_height="0dp"
+                android:layout_weight="2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -91,7 +96,7 @@
                             style="@style/subtitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/username"
+                            android:text="@string/email"
                             android:layout_marginBottom="@dimen/_6sdp"/>
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -99,6 +104,7 @@
                             style="@style/editTextAuth"
                             android:text="@={viewmodel.email}"
                             android:layout_width="match_parent"
+                            android:inputType="textEmailAddress"
                             android:layout_height="wrap_content"
                             tools:text="gilang"
                             android:importantForAutofill="no" />
@@ -132,7 +138,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <Button
-                            android:onClick="@{(v)->viewmodel.onButtonClick(v)}"
+                            android:onClick="@{()->viewmodel.onButtonClick()}"
                             android:id="@+id/buttonLogin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -158,7 +164,7 @@
                 </androidx.cardview.widget.CardView>
             </FrameLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
         <include
             android:id="@+id/bottomSheet"
             layout="@layout/bottom_sheet_register"

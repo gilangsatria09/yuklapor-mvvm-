@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.gproduction.yuklapor.ui.detaillaporan.DetailLaporanViewModel" />
+
+        <variable
+            name="model"
+            type="com.gproduction.yuklapor.data.model.LaporkanModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:isScrollContainer="true"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/monserratsemibold"
+                        android:text="@string/status"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        context="@{context}"
+                        status="@{model.status}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:background="@drawable/bg_status_rounded"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:fontFamily="@font/monserratmedium"
+                        android:paddingStart="@dimen/_18sdp"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:paddingEnd="@dimen/_18sdp"
+                        android:paddingBottom="@dimen/_3sdp"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/_13sdp"
+                        tools:text="Selesai" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imgLaporan"
+                    context="@{context}"
+                    urlSemuaLaporan="@{model.imageUrl}"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_155sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:contentDescription="@string/image_laporan"
+                    android:scaleType="center"
+                    android:src="@drawable/pexels_photo_417173" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvJudul"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:fontFamily="@font/montserratbold"
+                    android:text="@{model.judul}"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_15sdp"
+                    tools:text="Saluran Air Tersumbat" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:fontFamily="@font/monserratmedium"
+                    android:text="@{model.content}"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_12sdp"
+                    tools:text="Hai" />
+
+                <Button
+                    style="@style/buttonStyle"
+                    buttonVisibility="@{model.status}"
+                    context="@{context}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_25sdp"
+                    android:onClick="@{()->viewmodel.buttonTanggapanClick(model)}"
+                    android:text="@string/lihat_tanggapan"
+                    android:visibility="gone" />
+
+                <FrameLayout
+                    android:id="@+id/frameStatus"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <Spinner
+                        android:id="@+id/spinnerStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_35sdp"
+                        android:background="@drawable/bg_rounded_edittext"
+                        android:entries="@array/spinner_status"
+                        android:gravity="center"
+                        android:spinnerMode="dropdown" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_gravity="end|center"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
+                        tools:ignore="ContentDescription" />
+                </FrameLayout>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:visibility="gone"
+                    android:id="@+id/etTanggapan"
+                    style="@style/editTextContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:gravity="top"
+                    android:hint="@string/tanggapan"
+                    android:importantForAutofill="no"
+                    android:inputType="text|textMultiLine"
+                    android:text="@={viewmodel.tanggapan}"
+                    tools:text="Tanggapan" />
+
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/buttonUbahStatus"
+                    style="@style/buttonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:onClick="@{()->viewmodel.buttonUbahStatusClicked(model)}"
+                    android:text="@string/ubah_status" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+    </LinearLayout>
+
+</layout>

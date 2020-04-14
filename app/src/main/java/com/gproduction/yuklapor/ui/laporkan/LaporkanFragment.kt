@@ -2,10 +2,15 @@ package com.gproduction.yuklapor.ui.laporkan
 
 
 import android.app.Activity.RESULT_OK
+import android.content.ContentResolver
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,19 +19,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.gproduction.yuklapor.R
+import com.gproduction.yuklapor.data.Resource
+import com.gproduction.yuklapor.data.Status
+import com.gproduction.yuklapor.data.model.LaporkanModel
 import com.gproduction.yuklapor.databinding.BottomSheetChoosePhotoBinding
 import com.gproduction.yuklapor.databinding.FragmentLaporkanBinding
-import com.gproduction.yuklapor.tools.REQUEST_IMAGE_CAPTURE
-import com.gproduction.yuklapor.tools.SharedPreferences
-import com.gproduction.yuklapor.tools.toast
+import com.gproduction.yuklapor.tools.*
+import com.gproduction.yuklapor.ui.MainActivityMasyarakat
 import kotlinx.android.synthetic.main.fragment_laporkan.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class LaporkanFragment : Fragment(),LaporkanInterface {
+class LaporkanFragment : Fragment(), LaporkanInterface {
 
     private val viewModel by lazy {
         ViewModelProvider(this).get(LaporkanViewModel::class.java)
@@ -40,10 +48,21 @@ class LaporkanFragment : Fragment(),LaporkanInterface {
         SharedPreferences(requireContext())
     }
 
+    private val dialog by lazy{
+        CustomDialog(requireContext())
+    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+    private lateinit var binding:FragmentLaporkanBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        val binding:FragmentLaporkanBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_laporkan,container,false)
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_laporkan, container, false)
 
         binding.viewmodel = viewModel
 
@@ -51,8 +70,122 @@ class LaporkanFragment : Fragment(),LaporkanInterface {
 
         initBottomSheetDialog()
 
+        // Set ViewModel UID and NIK
+        sharedPreferences.getUid()?.let {
+            viewModel.uid = it
+        }
+
+        sharedPreferences.getNik()?.let {
+            viewModel.nik = it
+        }
+
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (arguments != null) {
+            val laporkanModel: LaporkanModel? = arguments!!.getParcelable(DATA_LAPORKAN)
+            initDetailDataEdit(laporkanModel)
+        }
+    }
+
+    private fun initBottomSheetDialog() {
+        val binding: BottomSheetChoosePhotoBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.bottom_sheet_choose_photo, null, false)
+        binding.viewmodel = viewModel
+
+        bottomSheet.setContentView(binding.root)
+    }
+
+    private fun initDetailDataEdit(data: LaporkanModel?) {
+        data?.let {
+            binding.model = it
+            viewModel.judul = it.judul
+            viewModel.content = it.content
+            viewModel.status = 1
+
+            Glide.with(requireContext()).load(it.imageUrl).into(addImage)
+            icAdd.visibility = View.GONE
+            buttonLaporkan.text = getString(R.string.edit_laporan)
+        }
+
+    }
+
+    override fun onFailed(message:String) {
+        requireContext().toast(message)
+    }
+
+    override fun onLaporkan(data: LiveData<Resource<Int>>) {
+        data.observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    dialog.dismiss()
+                    requireContext().toast("Berhasil!")
+                    val intent = Intent(requireContext(), MainActivityMasyarakat::class.java)
+                    startActivity(intent)
+                    requireActivity().finishAffinity()
+                }
+                Status.ERROR -> {
+                    requireContext().toast("Gagal!")
+                    dialog.dismiss()
+                }
+                Status.LOADING -> dialog.show()
+            }
+        })
+    }
+
+    override fun onAddPhotoClicked() {
+        bottomSheet.show()
+    }
+
+    override fun onCameraClicked() {
+        bottomSheet.dismiss()
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+    }
+
+    override fun onGalleryClicked() {
+        bottomSheet.dismiss()
+        Intent().apply {
+            type = IMAGE_TYPE
+            action = Intent.ACTION_GET_CONTENT
+        }.also {galleryIntent ->
+            galleryIntent.resolveActivity(requireContext().packageManager)?.also {
+                startActivityForResult(galleryIntent, REQUEST_IMAGE_GALLERY)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            icAdd.visibility = View.GONE
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            viewModel.photo = imageBitmap
+            addImage.setImageBitmap(imageBitmap)
+        }
+        if(requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK){
+            data?.let {
+                icAdd.visibility = View.GONE
+                val bitmap = getImageBitmap(requireActivity().contentResolver,it.data!!)
+                addImage.setImageBitmap(bitmap)
+                viewModel.photo = bitmap
+            }
+        }
+    }
+
+    private fun getImageBitmap(contentResolver: ContentResolver, path: Uri): Bitmap {
+        @Suppress("DEPRECATION") return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, path))
+        } else {
+            MediaStore.Images.Media.getBitmap(contentResolver, path)
+        }
+    }
+
 
     companion object {
         fun newInstance(): LaporkanFragment {
@@ -61,55 +194,13 @@ class LaporkanFragment : Fragment(),LaporkanInterface {
             fragment.arguments = args
             return fragment
         }
-    }
 
-    private fun initBottomSheetDialog(){
-        val binding:BottomSheetChoosePhotoBinding = DataBindingUtil.inflate(layoutInflater,R.layout.bottom_sheet_choose_photo,null,false)
-        binding.viewmodel = viewModel
-
-        bottomSheet.setContentView(binding.root)
-    }
-
-
-    override fun onFailed() {
-        requireContext().toast("GAGAL MZ")
-    }
-
-    override fun onLaporkan(data:LiveData<Int>) {
-       data.observe(this, Observer {
-           when(it){
-               1 -> requireContext().toast("Data Berhasil Diajukkan!")
-               2 -> requireContext().toast("Data Gagal Diajukkan!")
-           }
-       })
-    }
-
-    override fun onAddPhotoClicked() {
-        bottomSheet.show()
-    }
-
-    override fun onCameraClicked() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
-            icAdd.visibility = View.GONE
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-            viewModel.photo = imageBitmap
-            sharedPreferences.getUid()?.let {
-                viewModel.uid = it
-            }
-
-            sharedPreferences.getNik()?.let {
-                viewModel.nik = it
-            }
-            addImage.setImageBitmap(imageBitmap)
+        fun newInstance(data: LaporkanModel): LaporkanFragment {
+            val fragment = LaporkanFragment()
+            val args = Bundle()
+            args.putParcelable(DATA_LAPORKAN, data)
+            fragment.arguments = args
+            return fragment
         }
     }
 

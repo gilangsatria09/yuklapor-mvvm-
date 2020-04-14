@@ -1,6 +1,7 @@
 package com.gproduction.yuklapor.ui.daftarlaporan.fragment
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,11 +18,13 @@ import com.gproduction.yuklapor.data.Resource
 import com.gproduction.yuklapor.data.Status
 import com.gproduction.yuklapor.data.model.LaporkanModel
 import com.gproduction.yuklapor.databinding.FragmentSemuaLaporanBinding
+import com.gproduction.yuklapor.tools.DATA_LAPORKAN
 import com.gproduction.yuklapor.tools.SharedPreferences
 import com.gproduction.yuklapor.tools.toast
 import com.gproduction.yuklapor.ui.daftarlaporan.DaftarLaporanInterface
 import com.gproduction.yuklapor.ui.daftarlaporan.DaftarLaporanViewModel
 import com.gproduction.yuklapor.ui.daftarlaporan.adapter.SemuaLaporanRVAdapter
+import com.gproduction.yuklapor.ui.detaillaporan.DetailLaporanActivity
 import kotlinx.android.synthetic.main.fragment_semua_laporan.*
 
 /**
@@ -43,13 +46,32 @@ class SemuaLaporanFragment : Fragment(),DaftarLaporanInterface {
 
         viewModel.daftarLaporanInterface = this
 
-        sharedPreferences.getUid()?.let {
-            viewModel.getAllData(it)
+        when(sharedPreferences.getRole()){
+            0 -> {
+                sharedPreferences.getUid()?.let {
+                    viewModel.getAllData(it)
+                }
+            }
+            1 -> {
+                viewModel.getAllData()
+            }
         }
+
 
         return binding.root
     }
 
+    override fun onCardClicked(data: LaporkanModel) {
+        val intent = Intent(requireContext(),DetailLaporanActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable(DATA_LAPORKAN,data)
+
+        intent.apply {
+            putExtras(bundle)
+        }
+
+        startActivity(intent)
+    }
 
     override fun onSuccess(data: LiveData<Resource<ArrayList<LaporkanModel>>>) {
         data.observe(this, Observer {
