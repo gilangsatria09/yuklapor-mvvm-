@@ -24,8 +24,14 @@ import com.gproduction.yuklapor.data.Resource
 import com.gproduction.yuklapor.data.Status
 import com.gproduction.yuklapor.databinding.FragmentCreateBeritaBinding
 import com.gproduction.yuklapor.tools.*
-import com.gproduction.yuklapor.ui.MainActivityAdmin
+import com.gproduction.yuklapor.ui.home.HomeActivityAdmin
 import com.gproduction.yuklapor.ui.berita.BeritaViewModel
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.bottom_sheet_choose_photo.*
 import kotlinx.android.synthetic.main.fragment_laporkan.*
 
@@ -63,12 +69,7 @@ class CreateBeritaFragment : Fragment(), CreateBeritaInterface {
 
     private fun initBottomSheet() {
         bottomSheet.imgCamera.setOnClickListener {
-            bottomSheet.dismiss()
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                }
-            }
+            checkPermissions()
         }
         bottomSheet.imgGallery.setOnClickListener {
             bottomSheet.dismiss()
@@ -82,6 +83,16 @@ class CreateBeritaFragment : Fragment(), CreateBeritaInterface {
             }
         }
     }
+
+    private fun openCamera() {
+        bottomSheet.dismiss()
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
@@ -121,7 +132,7 @@ class CreateBeritaFragment : Fragment(), CreateBeritaInterface {
                 Status.SUCCESS -> {
                     dialog.dismiss()
                     requireContext().toast("Berhasil!")
-                    val intent = Intent(requireContext(), MainActivityAdmin::class.java)
+                    val intent = Intent(requireContext(), HomeActivityAdmin::class.java)
                     startActivity(intent)
                     requireActivity().finishAffinity()
                 }
@@ -132,5 +143,27 @@ class CreateBeritaFragment : Fragment(), CreateBeritaInterface {
                 Status.LOADING -> dialog.show()
             }
         })
+    }
+    private fun checkPermissions() {
+        Dexter
+            .withContext(requireContext())
+            .withPermission(android.Manifest.permission.CAMERA)
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
+                    openCamera()
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    p0: PermissionRequest?,
+                    p1: PermissionToken?
+                ) {
+                    //Do Nothing
+                }
+
+                override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
+
+                }
+
+            }).check()
     }
 }

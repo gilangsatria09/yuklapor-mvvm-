@@ -56,4 +56,12 @@
     <string name="detail_profile">Detail Profile</string>
     <string name="logout">Logout</string>
     <string name="tambah_admin">Registrasi Admin</string>
+    <string name="masyarakat">Masyarakat</string>
+    <string name="admin">Administrator</string>
+    <string name="petugas">Petugas</string>
+    <string name="dibuat_oleh">Dibuat Oleh</string>
+    <string name="laporan_terakhir_masyarakat">Laporan Terakhir Masyarakat</string>
+    <string name="role">Role</string>
+    <string name="yuk_lapor">Yuk Lapor!</string>
+    <string name="cepat_mudah"><![CDATA[Cepat & Mudah]]></string>
 </resources>

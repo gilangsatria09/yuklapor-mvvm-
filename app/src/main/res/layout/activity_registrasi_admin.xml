@@ -4,23 +4,22 @@
     <data>
 
         <variable
-            name="registerViewModel"
-            type="com.gproduction.yuklapor.ui.auth.AuthViewModel" />
+            name="viewmodel"
+            type="com.gproduction.yuklapor.ui.profile.ProfileViewModel" />
     </data>
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/bottomSheetLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_550sdp"
+        android:layout_height="match_parent"
         android:background="@drawable/bg_rounded"
         android:clickable="true"
         android:focusable="true"
-        android:orientation="vertical"
-        app:behavior_hideable="true"
-        app:behavior_peekHeight="0dp"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
+        android:orientation="vertical">
+        <include
+            layout="@layout/toolbar"
+            />
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -48,7 +47,7 @@
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
-                    android:text="@={registerViewModel.nik}"
+                    android:text="@={viewmodel.nik}"
                     tools:text="gilang" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -66,7 +65,7 @@
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:inputType="textCapWords|textNoSuggestions"
-                    android:text="@={registerViewModel.nama}"
+                    android:text="@={viewmodel.nama}"
                     tools:text="gilang" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -84,7 +83,7 @@
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
-                    android:text="@={registerViewModel.email}"
+                    android:text="@={viewmodel.email}"
                     tools:text="gilang" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -108,10 +107,9 @@
                         android:id="@+id/etPasswordBottom"
                         style="@style/editTextAuth"
                         android:layout_width="match_parent"
-                        android:imeOptions="actionNext"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword|textNoSuggestions"
-                        android:text="@={registerViewModel.password}"
+                        android:text="@={viewmodel.password}"
                         tools:text="gilang" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -139,9 +137,8 @@
                         style="@style/editTextAuth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
                         android:inputType="textPassword|textNoSuggestions"
-                        android:text="@={registerViewModel.confirmPassword}"
+                        android:text="@={viewmodel.confirmPassword}"
                         tools:text="gilang" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -162,8 +159,39 @@
                     android:imeOptions="actionDone"
                     android:importantForAutofill="no"
                     android:inputType="number"
-                    android:text="@={registerViewModel.noHp}"
+                    android:text="@={viewmodel.noHp}"
                     tools:text="gilang" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:text="@string/role" />
+
+                <FrameLayout
+                    android:id="@+id/frameStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <Spinner
+                        android:id="@+id/spinnerRole"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:background="@drawable/bg_rounded_edittext"
+                        android:entries="@array/role_registrasi"
+                        android:gravity="center"
+                        android:spinnerMode="dropdown" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_gravity="end|center"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
+                        tools:ignore="ContentDescription" />
+                </FrameLayout>
 
                 <Button
                     android:id="@+id/buttonLogin"
@@ -173,7 +201,7 @@
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@color/colorPrimary"
                     android:fontFamily="@font/monserratsemibold"
-                    android:onClick="@{()->registerViewModel.onButtonRegistrasiClick()}"
+                    android:onClick="@{()->viewmodel.buttonRegistrasiClicked()}"
                     android:padding="@dimen/_8sdp"
                     android:text="@string/daftar"
                     android:textAllCaps="false"

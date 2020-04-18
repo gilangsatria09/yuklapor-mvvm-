@@ -37,7 +37,7 @@ class DaftarLaporanFragment(private var toolbar: Toolbar) : Fragment() {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tabLayout.selectedTabPosition) {
-                    0 -> toolbar.title = "Semua Laporan"
+                    0 -> toolbar.title = "Belum Diproses"
                     1 -> toolbar.title = "Diproses"
                     2 -> toolbar.title = "Selesai"
                 }

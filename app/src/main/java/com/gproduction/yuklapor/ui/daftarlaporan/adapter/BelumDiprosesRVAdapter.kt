@@ -10,8 +10,8 @@ import com.gproduction.yuklapor.data.model.LaporkanModel
 import com.gproduction.yuklapor.databinding.ItemLaporanMainBinding
 import com.gproduction.yuklapor.ui.daftarlaporan.DaftarLaporanViewModel
 
-class SemuaLaporanRVAdapter(private val listLaporkan:ArrayList<LaporkanModel>,private val viewModel:DaftarLaporanViewModel)
-    :RecyclerView.Adapter<SemuaLaporanRVAdapter.ViewHolder>() {
+class BelumDiprosesRVAdapter(private val listLaporkan:ArrayList<LaporkanModel>, private val viewModel:DaftarLaporanViewModel)
+    :RecyclerView.Adapter<BelumDiprosesRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding:ItemLaporanMainBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_laporan_main,parent,false)

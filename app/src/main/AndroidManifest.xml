@@ -15,9 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.MainActivityAdmin"
-            android:windowSoftInputMode="adjustPan"
-            />
+        <activity android:name=".ui.SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.profile.registrasiadmin.RegistrasiAdminActivity" />
+        <activity android:name=".ui.profile.detailprofile.DetailProfileActivity" />
+        <activity
+            android:name=".ui.home.HomeActivityAdmin"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.berita.detail.DetailBeritaActivity" />
         <activity android:name=".ui.berita.list.ListBeritaActivity" />
         <activity android:name=".ui.laporkan.LaporkanActivity" />
@@ -25,15 +34,9 @@
         <activity android:name=".ui.detaillaporan.DetailLaporanActivity" />
         <activity android:name=".ui.daftarlaporan.main.DaftarLaporanActivity" />
         <activity
-            android:name=".ui.MainActivityMasyarakat"
+            android:name=".ui.home.HomeActivityMasyarakat"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".ui.auth.AuthActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.auth.AuthActivity"/>
     </application>
 
 </manifest>

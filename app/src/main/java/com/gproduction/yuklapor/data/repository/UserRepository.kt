@@ -50,6 +50,7 @@ class UserRepository {
                     authResult.value = Resource.success(it.result)
                 } else {
                     authResult.value = Resource.errorThrowable(it.exception,null)
+                    Log.d("EXCEPTION","${it.exception}")
                 }
             }
         return authResult
@@ -69,6 +70,7 @@ class UserRepository {
 
     fun checkDuplicateData(nik: String,noHp:String): LiveData<Resource<Boolean>>{
         val boolean = MutableLiveData<Resource<Boolean>>()
+        boolean.value = Resource.loading(null)
         database.child(USERS).orderByChild("nik").addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
                 var checked = true

@@ -23,7 +23,7 @@ import com.gproduction.yuklapor.tools.SharedPreferences
 import com.gproduction.yuklapor.tools.toast
 import com.gproduction.yuklapor.ui.daftarlaporan.DaftarLaporanInterface
 import com.gproduction.yuklapor.ui.daftarlaporan.DaftarLaporanViewModel
-import com.gproduction.yuklapor.ui.daftarlaporan.adapter.SemuaLaporanRVAdapter
+import com.gproduction.yuklapor.ui.daftarlaporan.adapter.BelumDiprosesRVAdapter
 import com.gproduction.yuklapor.ui.detaillaporan.DetailLaporanActivity
 import kotlinx.android.synthetic.main.fragment_semua_laporan.*
 
@@ -92,8 +92,8 @@ class DiprosesFragment : Fragment(), DaftarLaporanInterface {
     private fun setRecyclerView(data: ArrayList<LaporkanModel>) {
         rvSemuaLaporan.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = SemuaLaporanRVAdapter(data, viewModel)
-            (adapter as SemuaLaporanRVAdapter).notifyDataSetChanged()
+            adapter = BelumDiprosesRVAdapter(data, viewModel)
+            (adapter as BelumDiprosesRVAdapter).notifyDataSetChanged()
         }
     }
 

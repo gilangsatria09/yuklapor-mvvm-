@@ -1,7 +1,6 @@
 package com.gproduction.yuklapor.ui.laporkan
 
 import android.graphics.Bitmap
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.gproduction.yuklapor.data.model.LaporkanModel
@@ -21,6 +20,7 @@ class LaporkanViewModel : ViewModel() {
     var tanggal: String? = null
     var content: String? = null
     var status: Int? = 0
+    var namaPembuat:String?=null
 
     fun addPhotoOnClick() {
         laporkanInterface?.onAddPhotoClicked()
@@ -67,7 +67,8 @@ class LaporkanViewModel : ViewModel() {
                 judul,
                 content,
                 tanggal,
-                0
+                0,
+                namaPembuat
             )
 
             val register = LaporkanRepository().insertLaporan(byte!!, laporkanModel)
@@ -84,7 +85,8 @@ class LaporkanViewModel : ViewModel() {
                         judul,
                         content,
                         it.tanggal,
-                        it.status
+                        it.status,
+                        it.namaPembuat
                     )
                     val update = LaporkanRepository().editLaporan(byte, laporkanModel)
                     laporkanInterface?.onLaporkan(update)
@@ -100,7 +102,8 @@ class LaporkanViewModel : ViewModel() {
                         judul,
                         content,
                         it.tanggal,
-                        it.status
+                        it.status,
+                        it.namaPembuat
                     )
                     val update = LaporkanRepository().editLaporan(null,laporkanModel)
                     laporkanInterface?.onLaporkan(update)

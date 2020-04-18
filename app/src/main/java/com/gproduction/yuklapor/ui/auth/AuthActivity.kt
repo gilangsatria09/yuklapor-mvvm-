@@ -1,28 +1,28 @@
 package com.gproduction.yuklapor.ui.auth
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.gproduction.yuklapor.R
-import com.gproduction.yuklapor.databinding.ActivityAuthBinding
-import com.gproduction.yuklapor.tools.toast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.firebase.auth.*
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.gproduction.yuklapor.R
 import com.gproduction.yuklapor.data.Resource
 import com.gproduction.yuklapor.data.Status.*
 import com.gproduction.yuklapor.data.model.UserModel
+import com.gproduction.yuklapor.databinding.ActivityAuthBinding
 import com.gproduction.yuklapor.tools.CustomDialog
 import com.gproduction.yuklapor.tools.SharedPreferences
-import com.gproduction.yuklapor.tools.showDialog
-import com.gproduction.yuklapor.ui.MainActivityAdmin
-import com.gproduction.yuklapor.ui.MainActivityMasyarakat
+import com.gproduction.yuklapor.tools.toast
+import com.gproduction.yuklapor.ui.home.HomeActivityAdmin
+import com.gproduction.yuklapor.ui.home.HomeActivityMasyarakat
 import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.android.synthetic.main.bottom_sheet_register.*
 
@@ -52,8 +52,6 @@ class AuthActivity : AppCompatActivity(),
         binding.viewmodel = viewModel
 
         viewModel.authInterface = this
-        viewModel.isLoggedIn()
-
         //Init a Bottom Sheet for Registration
         initBottomSheet(bottomSheet)
 
@@ -66,14 +64,16 @@ class AuthActivity : AppCompatActivity(),
         if (isLoggedIn) {
             when(sharedPreferences.getRole()){
                 0 -> {
-                    val intent = Intent(this@AuthActivity, MainActivityMasyarakat::class.java)
+                    val intent = Intent(this@AuthActivity, HomeActivityMasyarakat::class.java)
                     startActivity(intent)
                 }
                 1 -> {
-                    val intent = Intent(this@AuthActivity,MainActivityAdmin::class.java)
+                    val intent = Intent(this@AuthActivity,
+                        HomeActivityAdmin::class.java)
                     startActivity(intent)
                 }
             }
+            finish()
         } else {
             toast("Anda Harus Login Terlebih Dahulu!")
         }
@@ -113,6 +113,7 @@ class AuthActivity : AppCompatActivity(),
                     etNoTelepon.text = null
                     etEmailBottom.text = null
                     etPasswordBottom.text = null
+                    etConfirmPasswordBottom.text = null
 
                 }
                 ERROR -> {
@@ -120,16 +121,16 @@ class AuthActivity : AppCompatActivity(),
                     dialog.dismiss()
                 }
                 ERRORTHROWABLE -> {
-                    showDialog().dismiss()
+                    dialog.dismiss()
                     when (it.exception) {
+                        is FirebaseAuthWeakPasswordException -> {
+                            toast("Password harus lebih dari 6!")
+                        }
                         is FirebaseAuthInvalidCredentialsException -> {
                             toast("Format Email Salah!")
                         }
                         is FirebaseAuthUserCollisionException -> {
                             toast("Email Sudah Digunakan!")
-                        }
-                        is FirebaseAuthWeakPasswordException -> {
-                            toast("Password harus lebih dari 6!")
                         }
                         else -> toast("Gagal Register, Periksa Data Terlebih Dahulu!")
                     }
@@ -141,7 +142,6 @@ class AuthActivity : AppCompatActivity(),
 
     override fun onFailed(pesan: String) {
         toast(pesan)
-
     }
 
     override fun buttomSheetState() {
@@ -161,8 +161,7 @@ class AuthActivity : AppCompatActivity(),
                 ERROR -> {
                     toast("${it.message}")
                 }
-                ERRORTHROWABLE -> TODO()
-                LOADING -> TODO()
+                else -> {}
             }
         })
     }
@@ -178,54 +177,47 @@ class AuthActivity : AppCompatActivity(),
                         sharedPreferences.setNama(it.nama)
                         when(it.role){
                             0 -> {
-                                showDialog().dismiss()
-                                val intent = Intent(this@AuthActivity,MainActivityMasyarakat::class.java)
+                                dialog.dismiss()
+                                val intent = Intent(this@AuthActivity,
+                                    HomeActivityMasyarakat::class.java)
                                 startActivity(intent)
                             }
                             1 -> {
-                                showDialog().dismiss()
-                                val intent = Intent(this@AuthActivity,MainActivityAdmin::class.java)
+                                dialog.dismiss()
+                                val intent = Intent(this@AuthActivity,
+                                    HomeActivityAdmin::class.java)
                                 startActivity(intent)
                             }
                         }
                     }
                 }
-                ERROR -> TODO()
-                ERRORTHROWABLE -> TODO()
-                LOADING -> TODO()
+                ERROR -> {}
+                ERRORTHROWABLE -> {}
+                LOADING -> {}
             }
         })
     }
 
-    fun initBottomSheet(view: View) {
+    private fun initBottomSheet(view: View) {
         bottomSheetBehavior = BottomSheetBehavior.from(view)
-        bottomSheetBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-
-            @SuppressLint("SwitchIntDef")
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        linearRegistrasi.visibility = View.GONE
-                        linearWelcome.visibility = View.VISIBLE
-                    }
-                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {
-                        if (linearRegistrasi.visibility == View.GONE) {
-                            linearWelcome.visibility = View.VISIBLE
-                        } else if (linearRegistrasi.visibility == View.VISIBLE) {
-                            linearWelcome.visibility = View.GONE
-                        }
-                    }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        linearRegistrasi.visibility = View.VISIBLE
-                        linearWelcome.visibility = View.GONE
-                    }
-                }
-            }
-        })
+//        bottomSheetBehavior.addBottomSheetCallback(object :
+//            BottomSheetBehavior.BottomSheetCallback() {
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+//
+//            }
+//
+//            @SuppressLint("SwitchIntDef")
+//            override fun onStateChanged(bottomSheet: View, newState: Int) {
+//                when (newState) {
+//                    BottomSheetBehavior.STATE_COLLAPSED -> {
+//                        linearWelcome.visibility = View.VISIBLE
+//                    }
+//                    BottomSheetBehavior.STATE_EXPANDED -> {
+//                        linearWelcome.visibility = View.GONE
+//                    }
+//                }
+//            }
+//        })
     }
 
 }

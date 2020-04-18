@@ -42,7 +42,7 @@ class DaftarLaporanActivity : AppCompatActivity(),InterfaceListener {
     }
 
     private fun initToolbar(){
-        toolbar.title = "Semua Laporan"
+        toolbar.title = "Belum Diproses"
         toolbar.navigationIcon?.setTint(getColor(android.R.color.white))
         toolbar.setNavigationOnClickListener {
             onBackPressed()
@@ -63,6 +63,7 @@ class DaftarLaporanActivity : AppCompatActivity(),InterfaceListener {
         floatingButton.hide()
         addFragment(fragment).addToBackStack(null)
     }
+
 
     override fun onBackPressed() {
         super.onBackPressed()

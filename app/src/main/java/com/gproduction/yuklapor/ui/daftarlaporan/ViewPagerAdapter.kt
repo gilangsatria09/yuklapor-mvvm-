@@ -6,13 +6,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.gproduction.yuklapor.ui.daftarlaporan.fragment.DiprosesFragment
 import com.gproduction.yuklapor.ui.daftarlaporan.fragment.SelesaiFragment
-import com.gproduction.yuklapor.ui.daftarlaporan.fragment.SemuaLaporanFragment
-import com.gproduction.yuklapor.ui.laporkan.LaporkanFragment
-import com.gproduction.yuklapor.ui.profile.ProfileFragment
+import com.gproduction.yuklapor.ui.daftarlaporan.fragment.BelumDiprosesFragment
 
 class ViewPagerAdapter(fm:FragmentManager):FragmentPagerAdapter(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
     private val pages = listOf(
-        SemuaLaporanFragment(),
+        BelumDiprosesFragment(),
         DiprosesFragment(),
         SelesaiFragment()
     )

@@ -2,10 +2,8 @@ package com.gproduction.yuklapor.tools
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.opengl.Visibility
 import android.view.View
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -28,6 +26,22 @@ object BindingAdapter {
             2 -> {
                 textView.text = context.getString(R.string.selesai)
                 textView.backgroundTintList = ColorStateList.valueOf(context.getColor(R.color.colorPrimaryDark))
+            }
+        }
+    }
+
+    @BindingAdapter(value = ["role","context"],requireAll = false)
+    @JvmStatic
+    fun setTextRole(textView: MaterialTextView, status:Int,context:Context){
+        when (status){
+            0 ->{
+                textView.text = context.getString(R.string.masyarakat)
+            }
+            1 -> {
+                textView.text = context.getString(R.string.admin)
+            }
+            2 -> {
+                textView.text = context.getString(R.string.petugas)
             }
         }
     }

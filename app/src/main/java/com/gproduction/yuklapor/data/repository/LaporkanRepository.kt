@@ -215,6 +215,72 @@ class LaporkanRepository {
         return data
     }
 
+    fun getDataBelumDiproses(uid: String): LiveData<Resource<ArrayList<LaporkanModel>>> {
+        val ref = database.child(LAPORAN).child(uid).orderByChild(STATUS)
+        val listData = ArrayList<LaporkanModel>()
+        val data = MutableLiveData<Resource<ArrayList<LaporkanModel>>>()
+
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (listData.size > 0) listData.clear()
+
+                for (i in p0.children) {
+                    if (i.child(STATUS).value.toString().toInt() == 0) {
+                        val laporkanModel: LaporkanModel? = i.getValue(LaporkanModel::class.java)
+                        laporkanModel?.id = i.key
+
+                        laporkanModel?.let {
+                            listData.add(it)
+                        }
+                    }
+                }
+                if (listData.size > 0) {
+                    data.value = Resource.success(listData)
+                } else {
+                    data.value = Resource.error("Data Tidak Ada", null)
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                data.value = Resource.error("Dicancel", null)
+            }
+        })
+        return data
+    }
+
+    fun getDataBelumDiproses(): LiveData<Resource<ArrayList<LaporkanModel>>> {
+        val ref = database.child(ALL_LAPORAN).orderByChild(STATUS)
+        val listData = ArrayList<LaporkanModel>()
+        val data = MutableLiveData<Resource<ArrayList<LaporkanModel>>>()
+
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (listData.size > 0) listData.clear()
+
+                for (i in p0.children) {
+                    if (i.child(STATUS).value.toString().toInt() == 0) {
+                        val laporkanModel: LaporkanModel? = i.getValue(LaporkanModel::class.java)
+                        laporkanModel?.id = i.key
+
+                        laporkanModel?.let {
+                            listData.add(it)
+                        }
+                    }
+                }
+                if (listData.size > 0) {
+                    data.value = Resource.success(listData)
+                } else {
+                    data.value = Resource.error("Data Tidak Ada", null)
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                data.value = Resource.error("Dicancel", null)
+            }
+        })
+        return data
+    }
+
     fun getDataDiproses(uid: String): LiveData<Resource<ArrayList<LaporkanModel>>> {
         val ref = database.child(LAPORAN).child(uid).orderByChild(STATUS)
         val listData = ArrayList<LaporkanModel>()

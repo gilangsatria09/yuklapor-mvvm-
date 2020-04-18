@@ -1,4 +1,4 @@
-package com.gproduction.yuklapor.ui.home
+package com.gproduction.yuklapor.ui.home.fragment
 
 import androidx.lifecycle.LiveData
 import com.gproduction.yuklapor.data.Resource

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewmodel"
             type="com.gproduction.yuklapor.ui.auth.AuthViewModel" />
@@ -12,60 +13,42 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            android:orientation="vertical"
             android:background="@color/colorBackground"
+            android:orientation="vertical"
             tools:context=".ui.auth.AuthActivity">
-
-            <LinearLayout
-                android:id="@+id/linearRegistrasi"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_25sdp">
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserratbold"
-                    android:text="@string/daftarkan_akunmu"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/_18sdp"/>
-            </LinearLayout>
-
-
 
             <LinearLayout
                 android:id="@+id/linearWelcome"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                app:layout_constraintBottom_toTopOf="@id/frameForm"
-                app:layout_constraintTop_toTopOf="parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_15sdp">
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/frameForm"
+                app:layout_constraintTop_toTopOf="parent">
+
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/selamat_datang"
-                    android:textSize="@dimen/_24sdp"
                     android:fontFamily="@font/montserratbold"
-                    android:textColor="@android:color/black"/>
+                    android:text="@string/selamat_datang"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_24sdp" />
+
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/di_aplikasi_yuk_lapor"
-                    android:textSize="@dimen/_15sdp"
                     android:fontFamily="@font/montserratregular"
-                    android:textColor="@android:color/black"/>
+                    android:text="@string/di_aplikasi_yuk_lapor"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_15sdp" />
             </LinearLayout>
 
             <FrameLayout
@@ -81,8 +64,7 @@
                     android:id="@+id/cardBackground"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@android:color/white"
-                    >
+                    android:background="@android:color/white">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -96,18 +78,19 @@
                             style="@style/subtitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/email"
-                            android:layout_marginBottom="@dimen/_6sdp"/>
+                            android:layout_marginBottom="@dimen/_6sdp"
+                            android:text="@string/email" />
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etUsername"
                             style="@style/editTextAuth"
-                            android:text="@={viewmodel.email}"
                             android:layout_width="match_parent"
-                            android:inputType="textEmailAddress"
                             android:layout_height="wrap_content"
-                            tools:text="gilang"
-                            android:importantForAutofill="no" />
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="no"
+                            android:inputType="textEmailAddress"
+                            android:text="@={viewmodel.email}"
+                            tools:text="gilang" />
 
                         <com.google.android.material.textview.MaterialTextView
                             style="@style/subtitle"
@@ -131,6 +114,7 @@
                                 style="@style/editTextAuth"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
                                 android:inputType="textPassword|textNoSuggestions"
                                 android:text="@={viewmodel.password}"
                                 tools:text="gilang" />
@@ -138,37 +122,38 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <Button
-                            android:onClick="@{()->viewmodel.onButtonClick()}"
                             android:id="@+id/buttonLogin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_40sdp"
                             android:layout_marginBottom="@dimen/_5sdp"
                             android:background="@color/colorPrimary"
-                            android:text="@string/masuk"
                             android:fontFamily="@font/monserratsemibold"
-                            android:textAllCaps="false"
+                            android:onClick="@{()->viewmodel.onButtonClick()}"
                             android:padding="@dimen/_8sdp"
+                            android:text="@string/masuk"
+                            android:textAllCaps="false"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/_14sdp" />
+
                         <TextView
-                            android:onClick="@{()->viewmodel.onRegistrasiClick()}"
                             android:id="@+id/tvBelumPunyaAkun"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/belum_punya_akun_klik_disini"
-                            android:gravity="center"
                             android:fontFamily="@font/montserratregular"
-                            android:textColor="@android:color/black"/>
+                            android:gravity="center"
+                            android:onClick="@{()->viewmodel.onRegistrasiClick()}"
+                            android:text="@string/belum_punya_akun_klik_disini"
+                            android:textColor="@android:color/black" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </FrameLayout>
 
         </LinearLayout>
+
         <include
             android:id="@+id/bottomSheet"
             layout="@layout/bottom_sheet_register"
-            app:registerViewModel="@{viewmodel}"
-            />
+            app:registerViewModel="@{viewmodel}" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

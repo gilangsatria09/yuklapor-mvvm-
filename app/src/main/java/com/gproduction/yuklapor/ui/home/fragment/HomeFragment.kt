@@ -1,4 +1,4 @@
-package com.gproduction.yuklapor.ui.home
+package com.gproduction.yuklapor.ui.home.fragment
 
 
 import android.content.Intent
@@ -29,7 +29,8 @@ import kotlin.collections.ArrayList
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFragment : Fragment(),HomeInterface {
+class HomeFragment : Fragment(),
+    HomeInterface {
 
     private lateinit var viewModel: HomeViewModel
 
@@ -52,7 +53,7 @@ class HomeFragment : Fragment(),HomeInterface {
                     viewModel.getAllDataLaporanByUID(it)
                 }
             }
-            1 -> {
+            else -> {
                 viewModel.getAllData()
             }
         }
@@ -67,12 +68,15 @@ class HomeFragment : Fragment(),HomeInterface {
         if (sharedPreferences.getNama() != null){
             namaUser.text = sharedPreferences.getNama()
         }else{
-            namaUser.text = "Siapapun"
+            namaUser.text = ""
         }
     }
 
     private fun initView(){
         cardBg.background = requireActivity().getDrawable(R.drawable.bg_card_rounded)
+        if(sharedPreferences.getRole() != 0){
+            tvLaporan.text = getString(R.string.laporan_terakhir_masyarakat)
+        }
     }
 
     private fun settingRecyclerView(list:ArrayList<LaporkanModel>){
@@ -84,8 +88,9 @@ class HomeFragment : Fragment(),HomeInterface {
     }
 
     companion object{
-        fun newInstance() : HomeFragment{
-            val fragment = HomeFragment()
+        fun newInstance() : HomeFragment {
+            val fragment =
+                HomeFragment()
             val args = Bundle()
             fragment.arguments = args
             return fragment

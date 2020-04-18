@@ -23,14 +23,14 @@ import com.gproduction.yuklapor.tools.SharedPreferences
 import com.gproduction.yuklapor.tools.toast
 import com.gproduction.yuklapor.ui.daftarlaporan.DaftarLaporanInterface
 import com.gproduction.yuklapor.ui.daftarlaporan.DaftarLaporanViewModel
-import com.gproduction.yuklapor.ui.daftarlaporan.adapter.SemuaLaporanRVAdapter
+import com.gproduction.yuklapor.ui.daftarlaporan.adapter.BelumDiprosesRVAdapter
 import com.gproduction.yuklapor.ui.detaillaporan.DetailLaporanActivity
 import kotlinx.android.synthetic.main.fragment_semua_laporan.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class SemuaLaporanFragment : Fragment(),DaftarLaporanInterface {
+class BelumDiprosesFragment : Fragment(),DaftarLaporanInterface {
     private lateinit var viewModel:DaftarLaporanViewModel
 
     private val sharedPreferences by lazy {
@@ -49,11 +49,11 @@ class SemuaLaporanFragment : Fragment(),DaftarLaporanInterface {
         when(sharedPreferences.getRole()){
             0 -> {
                 sharedPreferences.getUid()?.let {
-                    viewModel.getAllData(it)
+                    viewModel.getDataBelumDiproses(it)
                 }
             }
             1 -> {
-                viewModel.getAllData()
+                viewModel.getDataBelumDiproses()
             }
         }
 
@@ -77,10 +77,12 @@ class SemuaLaporanFragment : Fragment(),DaftarLaporanInterface {
         data.observe(this, Observer {
             when(it.status){
                 Status.SUCCESS -> {
+                    rvSemuaLaporan.visibility = View.VISIBLE
                     setRecyclerView(it.data!!)
                 }
                 Status.ERROR ->{
                     requireContext().toast(it.message!!)
+                    rvSemuaLaporan.visibility = View.GONE
                 }
             }
         })
@@ -89,7 +91,7 @@ class SemuaLaporanFragment : Fragment(),DaftarLaporanInterface {
     private fun setRecyclerView(list:ArrayList<LaporkanModel>){
         rvSemuaLaporan.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = SemuaLaporanRVAdapter(list,viewModel)
+            adapter = BelumDiprosesRVAdapter(list,viewModel)
         }
     }
 

@@ -54,7 +54,6 @@ class DetailLaporanActivity : AppCompatActivity(), DetailLaporanInterface {
 
         intent.extras?.let {
             val laporkanModel: LaporkanModel? = it.getParcelable(DATA_LAPORKAN)
-            binding.model = laporkanModel
             initDetailData(laporkanModel)
 
             when (sharedPreferences.getRole()) {
@@ -64,6 +63,8 @@ class DetailLaporanActivity : AppCompatActivity(), DetailLaporanInterface {
                 else -> {
                     frameStatus.visibility = View.VISIBLE
                     buttonUbahStatus.visibility = View.VISIBLE
+                    tvNamaPembuat.visibility = View.VISIBLE
+                    tvNamaPembuat.text = String.format("%s : %s",getString(R.string.dibuat_oleh),laporkanModel?.namaPembuat)
 
                     viewModel.namaPegawai = sharedPreferences.getNama()
                     laporkanModel!!.idTanggapan?.let { id ->
@@ -71,6 +72,7 @@ class DetailLaporanActivity : AppCompatActivity(), DetailLaporanInterface {
                     }
                 }
             }
+            binding.model = laporkanModel
         }
     }
 

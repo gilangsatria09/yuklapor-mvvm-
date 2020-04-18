@@ -76,6 +76,16 @@
                     android:src="@drawable/pexels_photo_417173" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvNamaPembuat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/monserratsemibold"
+                    android:textSize="@dimen/_12sdp"
+                    android:visibility="gone"
+                    tools:text="Dibuat Oleh: Gilang Satria" />
+
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvJudul"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,10 +121,10 @@
 
                 <FrameLayout
                     android:id="@+id/frameStatus"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_10sdp">
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:visibility="gone">
 
                     <Spinner
                         android:id="@+id/spinnerStatus"
@@ -135,7 +145,6 @@
                 </FrameLayout>
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:visibility="gone"
                     android:id="@+id/etTanggapan"
                     style="@style/editTextContent"
                     android:layout_width="match_parent"
@@ -145,10 +154,10 @@
                     android:importantForAutofill="no"
                     android:inputType="text|textMultiLine"
                     android:text="@={viewmodel.tanggapan}"
+                    android:visibility="gone"
                     tools:text="Tanggapan" />
 
                 <Button
-                    android:visibility="gone"
                     android:id="@+id/buttonUbahStatus"
                     style="@style/buttonStyle"
                     android:layout_width="wrap_content"
@@ -156,7 +165,8 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:onClick="@{()->viewmodel.buttonUbahStatusClicked(model)}"
-                    android:text="@string/ubah_status" />
+                    android:text="@string/ubah_status"
+                    android:visibility="gone" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

@@ -28,7 +28,13 @@ import com.gproduction.yuklapor.data.model.LaporkanModel
 import com.gproduction.yuklapor.databinding.BottomSheetChoosePhotoBinding
 import com.gproduction.yuklapor.databinding.FragmentLaporkanBinding
 import com.gproduction.yuklapor.tools.*
-import com.gproduction.yuklapor.ui.MainActivityMasyarakat
+import com.gproduction.yuklapor.ui.home.HomeActivityMasyarakat
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.fragment_laporkan.*
 
 /**
@@ -48,12 +54,12 @@ class LaporkanFragment : Fragment(), LaporkanInterface {
         SharedPreferences(requireContext())
     }
 
-    private val dialog by lazy{
+    private val dialog by lazy {
         CustomDialog(requireContext())
     }
 
 
-    private lateinit var binding:FragmentLaporkanBinding
+    private lateinit var binding: FragmentLaporkanBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,7 +76,8 @@ class LaporkanFragment : Fragment(), LaporkanInterface {
 
         initBottomSheetDialog()
 
-        // Set ViewModel UID and NIK
+
+        // Set ViewModel UID ,NIK, and Nama Pembuat
         sharedPreferences.getUid()?.let {
             viewModel.uid = it
         }
@@ -78,6 +85,8 @@ class LaporkanFragment : Fragment(), LaporkanInterface {
         sharedPreferences.getNik()?.let {
             viewModel.nik = it
         }
+
+        viewModel.namaPembuat = sharedPreferences.getNama()!!
 
         return binding.root
     }
@@ -112,7 +121,7 @@ class LaporkanFragment : Fragment(), LaporkanInterface {
 
     }
 
-    override fun onFailed(message:String) {
+    override fun onFailed(message: String) {
         requireContext().toast(message)
     }
 
@@ -122,7 +131,7 @@ class LaporkanFragment : Fragment(), LaporkanInterface {
                 Status.SUCCESS -> {
                     dialog.dismiss()
                     requireContext().toast("Berhasil!")
-                    val intent = Intent(requireContext(), MainActivityMasyarakat::class.java)
+                    val intent = Intent(requireContext(), HomeActivityMasyarakat::class.java)
                     startActivity(intent)
                     requireActivity().finishAffinity()
                 }
@@ -131,6 +140,7 @@ class LaporkanFragment : Fragment(), LaporkanInterface {
                     dialog.dismiss()
                 }
                 Status.LOADING -> dialog.show()
+                else -> Log.d("Nothing", "nothing")
             }
         })
     }
@@ -140,6 +150,10 @@ class LaporkanFragment : Fragment(), LaporkanInterface {
     }
 
     override fun onCameraClicked() {
+        checkPermissions()
+    }
+
+    private fun openCamera() {
         bottomSheet.dismiss()
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
@@ -153,7 +167,7 @@ class LaporkanFragment : Fragment(), LaporkanInterface {
         Intent().apply {
             type = IMAGE_TYPE
             action = Intent.ACTION_GET_CONTENT
-        }.also {galleryIntent ->
+        }.also { galleryIntent ->
             galleryIntent.resolveActivity(requireContext().packageManager)?.also {
                 startActivityForResult(galleryIntent, REQUEST_IMAGE_GALLERY)
             }
@@ -168,10 +182,10 @@ class LaporkanFragment : Fragment(), LaporkanInterface {
             viewModel.photo = imageBitmap
             addImage.setImageBitmap(imageBitmap)
         }
-        if(requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK) {
             data?.let {
                 icAdd.visibility = View.GONE
-                val bitmap = getImageBitmap(requireActivity().contentResolver,it.data!!)
+                val bitmap = getImageBitmap(requireActivity().contentResolver, it.data!!)
                 addImage.setImageBitmap(bitmap)
                 viewModel.photo = bitmap
             }
@@ -202,6 +216,29 @@ class LaporkanFragment : Fragment(), LaporkanInterface {
             fragment.arguments = args
             return fragment
         }
+    }
+
+    private fun checkPermissions() {
+        Dexter
+            .withContext(requireContext())
+            .withPermission(android.Manifest.permission.CAMERA)
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
+                    openCamera()
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    p0: PermissionRequest?,
+                    p1: PermissionToken?
+                ) {
+                    //Do Nothing
+                }
+
+                override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
+
+                }
+
+            }).check()
     }
 
 }

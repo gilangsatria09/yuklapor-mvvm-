@@ -14,12 +14,12 @@ class DaftarLaporanViewModel(application: Application) : AndroidViewModel(applic
     var interfaceLaporan:InterfaceListener? = null
 
 
-    fun getAllData(uid:String){
-        val data = LaporkanRepository().getAllLaporanByUID(uid)
+    fun getDataBelumDiproses(uid:String){
+        val data = LaporkanRepository().getDataBelumDiproses(uid)
         daftarLaporanInterface?.onSuccess(data)
     }
-    fun getAllData(){
-        val data = LaporkanRepository().getAllLaporan()
+    fun getDataBelumDiproses(){
+        val data = LaporkanRepository().getDataBelumDiproses()
         daftarLaporanInterface?.onSuccess(data)
     }
 

@@ -6,7 +6,7 @@
             type="com.gproduction.yuklapor.data.model.LaporkanModel" />
         <variable
             name="viewmodel"
-            type="com.gproduction.yuklapor.ui.home.HomeViewModel" />
+            type="com.gproduction.yuklapor.ui.home.fragment.HomeViewModel" />
     </data>
     <LinearLayout
         xmlns:tools="http://schemas.android.com/tools"
