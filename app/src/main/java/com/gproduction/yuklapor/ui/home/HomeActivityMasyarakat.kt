@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gproduction.yuklapor.R
-import com.gproduction.yuklapor.ui.home.fragment.HomeFragment
+import com.gproduction.yuklapor.ui.home.masyarakat.HomeMasyarakatFragment
 import com.gproduction.yuklapor.ui.laporkan.LaporkanFragment
 import com.gproduction.yuklapor.ui.profile.ProfileFragment
 import kotlinx.android.synthetic.main.activity_home_masyarakat.*
@@ -17,14 +17,14 @@ class HomeActivityMasyarakat : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_masyarakat)
         bottomNav.setOnNavigationItemSelectedListener(onNavigationClickListener)
-        val fragment = HomeFragment.newInstance()
+        val fragment = HomeMasyarakatFragment.newInstance()
         addFragment(fragment)
     }
 
     private val onNavigationClickListener = BottomNavigationView.OnNavigationItemSelectedListener {
         when (it.itemId){
             R.id.action_home -> {
-                val homeFragment = HomeFragment.newInstance()
+                val homeFragment = HomeMasyarakatFragment.newInstance()
                 addFragment(homeFragment)
                 return@OnNavigationItemSelectedListener true
             }

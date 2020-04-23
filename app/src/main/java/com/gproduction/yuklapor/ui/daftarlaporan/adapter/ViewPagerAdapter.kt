@@ -1,4 +1,4 @@
-package com.gproduction.yuklapor.ui.daftarlaporan
+package com.gproduction.yuklapor.ui.daftarlaporan.adapter
 
 import android.os.Parcelable
 import androidx.fragment.app.Fragment

@@ -15,6 +15,9 @@ import com.gproduction.yuklapor.databinding.ActivityTanggapanMasyarakatBinding
 import com.gproduction.yuklapor.tools.DATA_LAPORKAN
 import com.gproduction.yuklapor.tools.toast
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TanggapanActivity : AppCompatActivity(),
     TanggapanInterface {
@@ -36,7 +39,9 @@ class TanggapanActivity : AppCompatActivity(),
             val laporkanModel:LaporkanModel = intent.getParcelableExtra(DATA_LAPORKAN)!!
             binding.model = laporkanModel
 
-            viewModel.runTanggapanScope(laporkanModel.idTanggapan!!)
+            CoroutineScope(Dispatchers.Main).launch {
+                viewModel.fetchTanggapan(laporkanModel.idTanggapan!!)
+            }
         }
 
     }

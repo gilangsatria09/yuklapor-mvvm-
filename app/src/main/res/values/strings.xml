@@ -64,4 +64,7 @@
     <string name="role">Role</string>
     <string name="yuk_lapor">Yuk Lapor!</string>
     <string name="cepat_mudah"><![CDATA[Cepat & Mudah]]></string>
+    <string name="lihat_report">Lihat Report</string>
+    <string name="eksport_ke_pdf">Eksport ke PDF</string>
+    <string name="report">Report</string>
 </resources>

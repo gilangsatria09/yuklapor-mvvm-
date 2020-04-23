@@ -84,7 +84,7 @@
 
             <Button
                 android:onClick="@{()->viewmodel.buttonBeritaClicked()}"
-                android:id="@+id/buttonLaporkan"
+                android:id="@+id/buttonReport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tambah_berita"

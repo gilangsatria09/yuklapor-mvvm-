@@ -18,7 +18,7 @@ import com.gproduction.yuklapor.data.Resource
 import com.gproduction.yuklapor.data.Status.*
 import com.gproduction.yuklapor.data.model.UserModel
 import com.gproduction.yuklapor.databinding.ActivityAuthBinding
-import com.gproduction.yuklapor.tools.CustomDialog
+import com.gproduction.yuklapor.tools.CustomView.Companion.dialogCustom
 import com.gproduction.yuklapor.tools.SharedPreferences
 import com.gproduction.yuklapor.tools.toast
 import com.gproduction.yuklapor.ui.home.HomeActivityAdmin
@@ -37,7 +37,7 @@ class AuthActivity : AppCompatActivity(),
     }
 
     private val dialog by lazy{
-        CustomDialog(this@AuthActivity)
+        dialogCustom(this@AuthActivity)
     }
 
 

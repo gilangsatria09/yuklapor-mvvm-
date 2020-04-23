@@ -1,11 +1,11 @@
 package com.gproduction.yuklapor.ui.detaillaporan
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -16,7 +16,11 @@ import com.gproduction.yuklapor.data.Status.*
 import com.gproduction.yuklapor.data.model.LaporkanModel
 import com.gproduction.yuklapor.data.model.TanggapanModel
 import com.gproduction.yuklapor.databinding.ActivityDetailLaporanBinding
-import com.gproduction.yuklapor.tools.*
+import com.gproduction.yuklapor.tools.CustomAlertDialog
+import com.gproduction.yuklapor.tools.CustomView.Companion.dialogCustom
+import com.gproduction.yuklapor.tools.DATA_LAPORKAN
+import com.gproduction.yuklapor.tools.SharedPreferences
+import com.gproduction.yuklapor.tools.toast
 import com.gproduction.yuklapor.ui.laporkan.LaporkanActivity
 import com.gproduction.yuklapor.ui.tanggapan.TanggapanActivity
 import kotlinx.android.synthetic.main.activity_detail_laporan.*
@@ -34,7 +38,7 @@ class DetailLaporanActivity : AppCompatActivity(), DetailLaporanInterface {
     }
 
     private val dialog by lazy{
-        CustomDialog(this@DetailLaporanActivity)
+       dialogCustom(this@DetailLaporanActivity)
     }
 
     private val sharedPreferences by lazy {
@@ -167,6 +171,7 @@ class DetailLaporanActivity : AppCompatActivity(), DetailLaporanInterface {
                 ERROR -> {
                     toast("${it.message}")
                 }
+                else -> {}
             }
         })
     }
@@ -189,6 +194,7 @@ class DetailLaporanActivity : AppCompatActivity(), DetailLaporanInterface {
                     toast("${it.message}")
                 }
                 LOADING -> dialog.show()
+                else -> {}
             }
         })
     }

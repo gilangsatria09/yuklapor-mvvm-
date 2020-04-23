@@ -130,7 +130,7 @@
                             android:background="@color/colorPrimary"
                             android:fontFamily="@font/monserratsemibold"
                             android:onClick="@{()->viewmodel.onButtonClick()}"
-                            android:padding="@dimen/_8sdp"
+                            android:padding="@dimen/_5sdp"
                             android:text="@string/masuk"
                             android:textAllCaps="false"
                             android:textColor="@android:color/white"

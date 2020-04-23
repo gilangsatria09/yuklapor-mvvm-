@@ -11,6 +11,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.gproduction.yuklapor.data.Resource
 import com.gproduction.yuklapor.data.model.TanggapanModel
 import com.gproduction.yuklapor.tools.TANGGAPAN
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class TanggapanRepository {
 
@@ -35,6 +37,24 @@ class TanggapanRepository {
                 data.value = Resource.error("Gagal", null)
             }
         })
+        return data
+    }
+
+    suspend fun get(id: String):LiveData<Resource<TanggapanModel>>{
+        val data = MutableLiveData<Resource<TanggapanModel>>()
+        withContext(Dispatchers.IO){
+            database.child(TANGGAPAN).child(id).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    val tanggapanModel: TanggapanModel? = p0.getValue(TanggapanModel::class.java)
+                    tanggapanModel?.id = p0.key
+                    data.value = Resource.success(tanggapanModel)
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+                    data.value = Resource.error("Gagal", null)
+                }
+            })
+        }
         return data
     }
 }

@@ -1,11 +1,10 @@
 package com.gproduction.yuklapor.ui.profile.registrasiadmin
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -18,7 +17,7 @@ import com.gproduction.yuklapor.R
 import com.gproduction.yuklapor.data.Resource
 import com.gproduction.yuklapor.data.Status
 import com.gproduction.yuklapor.databinding.ActivityRegistrasiAdminBinding
-import com.gproduction.yuklapor.tools.CustomDialog
+import com.gproduction.yuklapor.tools.CustomView.Companion.dialogCustom
 import com.gproduction.yuklapor.tools.toast
 import com.gproduction.yuklapor.ui.profile.ProfileViewModel
 import kotlinx.android.synthetic.main.activity_registrasi_admin.*
@@ -31,7 +30,7 @@ class RegistrasiAdminActivity : AppCompatActivity(),RegistrasiAdminInterface {
     }
 
     private val dialog by lazy {
-        CustomDialog(this@RegistrasiAdminActivity)
+        dialogCustom(this@RegistrasiAdminActivity)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

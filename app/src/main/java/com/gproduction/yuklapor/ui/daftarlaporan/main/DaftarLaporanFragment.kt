@@ -10,7 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.tabs.TabLayout
 
 import com.gproduction.yuklapor.R
-import com.gproduction.yuklapor.ui.daftarlaporan.ViewPagerAdapter
+import com.gproduction.yuklapor.ui.daftarlaporan.adapter.ViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_daftar_laporan.*
 
 /**
@@ -24,7 +24,10 @@ class DaftarLaporanFragment(private var toolbar: Toolbar) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewPager.adapter = ViewPagerAdapter(childFragmentManager)
+        viewPager.adapter =
+            ViewPagerAdapter(
+                childFragmentManager
+            )
         tabLayout.setupWithViewPager(viewPager)
         setTabIcon()
 

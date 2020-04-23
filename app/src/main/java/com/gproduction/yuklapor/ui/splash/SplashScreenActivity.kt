@@ -1,4 +1,4 @@
-package com.gproduction.yuklapor.ui
+package com.gproduction.yuklapor.ui.splash
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

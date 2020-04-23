@@ -28,6 +28,7 @@ import com.gproduction.yuklapor.data.model.LaporkanModel
 import com.gproduction.yuklapor.databinding.BottomSheetChoosePhotoBinding
 import com.gproduction.yuklapor.databinding.FragmentLaporkanBinding
 import com.gproduction.yuklapor.tools.*
+import com.gproduction.yuklapor.tools.CustomView.Companion.dialogCustom
 import com.gproduction.yuklapor.ui.home.HomeActivityMasyarakat
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -55,7 +56,7 @@ class LaporkanFragment : Fragment(), LaporkanInterface {
     }
 
     private val dialog by lazy {
-        CustomDialog(requireContext())
+        dialogCustom(requireContext())
     }
 
 
@@ -116,7 +117,7 @@ class LaporkanFragment : Fragment(), LaporkanInterface {
 
             Glide.with(requireContext()).load(it.imageUrl).into(addImage)
             icAdd.visibility = View.GONE
-            buttonLaporkan.text = getString(R.string.edit_laporan)
+            buttonReport.text = getString(R.string.edit_laporan)
         }
 
     }

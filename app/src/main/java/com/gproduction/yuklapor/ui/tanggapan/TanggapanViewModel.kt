@@ -11,19 +11,10 @@ class TanggapanViewModel : ViewModel(){
     var tanggapanInterface: TanggapanInterface? = null
 
     //Just Testing with Kotlin Coroutines with Dispatcher.IO
-    fun runTanggapanScope(id:String){
-        viewModelScope.launch {
-            fetchTanggapan(id)
-        }
-    }
 
     suspend fun fetchTanggapan(id:String){
-        val data = getTanggapan(id)
+        val data = TanggapanRepository().get(id)
         tanggapanInterface?.getDataTanggapan(data)
-    }
-
-    suspend fun getTanggapan(id:String) = withContext(Dispatchers.IO) {
-        TanggapanRepository().getTanggapanById(id)
     }
 
 }

@@ -7,7 +7,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gproduction.yuklapor.R
 import com.gproduction.yuklapor.ui.berita.create.CreateBeritaFragment
-import com.gproduction.yuklapor.ui.home.fragment.HomeFragment
+import com.gproduction.yuklapor.ui.home.admin.HomeAdminFragment
+import com.gproduction.yuklapor.ui.home.masyarakat.HomeMasyarakatFragment
 import com.gproduction.yuklapor.ui.profile.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main_admin.*
 
@@ -17,13 +18,13 @@ class HomeActivityAdmin : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_admin)
         bottomNav.setOnNavigationItemSelectedListener(onNavigationClickListener)
-        val fragment = HomeFragment.newInstance()
+        val fragment = HomeAdminFragment()
         addFragment(fragment)
     }
     private val onNavigationClickListener = BottomNavigationView.OnNavigationItemSelectedListener {
         when (it.itemId){
             R.id.action_home -> {
-                val homeFragment = HomeFragment.newInstance()
+                val homeFragment = HomeAdminFragment()
                 addFragment(homeFragment)
                 return@OnNavigationItemSelectedListener true
             }

@@ -24,6 +24,7 @@ import com.gproduction.yuklapor.data.Resource
 import com.gproduction.yuklapor.data.Status
 import com.gproduction.yuklapor.databinding.FragmentCreateBeritaBinding
 import com.gproduction.yuklapor.tools.*
+import com.gproduction.yuklapor.tools.CustomView.Companion.dialogCustom
 import com.gproduction.yuklapor.ui.home.HomeActivityAdmin
 import com.gproduction.yuklapor.ui.berita.BeritaViewModel
 import com.karumi.dexter.Dexter
@@ -45,11 +46,11 @@ class CreateBeritaFragment : Fragment(), CreateBeritaInterface {
     }
 
     private val bottomSheet by lazy {
-        CustomBottomSheet.bottomSheet(requireContext())
+        CustomView.bottomSheet(requireContext())
     }
 
     private val dialog by lazy {
-        CustomDialog(requireContext())
+        dialogCustom(requireContext())
     }
 
     override fun onCreateView(
@@ -141,6 +142,7 @@ class CreateBeritaFragment : Fragment(), CreateBeritaInterface {
                     dialog.dismiss()
                 }
                 Status.LOADING -> dialog.show()
+                else -> {}
             }
         })
     }

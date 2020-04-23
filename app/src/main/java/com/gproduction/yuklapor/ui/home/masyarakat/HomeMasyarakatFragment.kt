@@ -1,4 +1,4 @@
-package com.gproduction.yuklapor.ui.home.fragment
+package com.gproduction.yuklapor.ui.home.masyarakat
 
 
 import android.content.Intent
@@ -23,16 +23,27 @@ import com.gproduction.yuklapor.ui.berita.list.ListBeritaActivity
 import com.gproduction.yuklapor.ui.daftarlaporan.main.DaftarLaporanActivity
 import com.gproduction.yuklapor.ui.detaillaporan.DetailLaporanActivity
 import com.gproduction.yuklapor.ui.home.adapter.HomeRVAdapter
+import com.gproduction.yuklapor.ui.home.adapter.OnClickInterface
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFragment : Fragment(),
-    HomeInterface {
+class HomeMasyarakatFragment : Fragment(),
+    HomeMasyarakatInterface,OnClickInterface {
 
-    private lateinit var viewModel: HomeViewModel
+    companion object{
+        fun newInstance() : HomeMasyarakatFragment {
+            val fragment =
+                HomeMasyarakatFragment()
+            val args = Bundle()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    private lateinit var masyarakatViewModel: HomeMasyarakatViewModel
 
     private val sharedPreferences by lazy {
         SharedPreferences(requireContext())
@@ -41,20 +52,20 @@ class HomeFragment : Fragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding:FragmentHomeBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
 
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        binding.viewmodel = viewModel
+        masyarakatViewModel = ViewModelProvider(this).get(HomeMasyarakatViewModel::class.java)
+        binding.viewmodel = masyarakatViewModel
 
 
-        viewModel.homeInterface = this
+        masyarakatViewModel.homeMasyarakatInterface = this
 
         when(sharedPreferences.getRole()){
             0 -> {
                 sharedPreferences.getUid()?.let {
-                    viewModel.getAllDataLaporanByUID(it)
+                    masyarakatViewModel.getAllDataLaporanByUID(it)
                 }
             }
             else -> {
-                viewModel.getAllData()
+                masyarakatViewModel.getAllData()
             }
         }
 
@@ -83,17 +94,7 @@ class HomeFragment : Fragment(),
         list.reverse()
         rvLaporanHome.apply {
             layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-            adapter = HomeRVAdapter(list,viewModel)
-        }
-    }
-
-    companion object{
-        fun newInstance() : HomeFragment {
-            val fragment =
-                HomeFragment()
-            val args = Bundle()
-            fragment.arguments = args
-            return fragment
+            adapter = HomeRVAdapter(list,this@HomeMasyarakatFragment)
         }
     }
 
@@ -103,14 +104,15 @@ class HomeFragment : Fragment(),
                 Status.SUCCESS ->{
                     settingRecyclerView(it.data!!)
                 }
+                else -> {}
             }
         })
     }
 
-    override fun onCardClicked(model: LaporkanModel) {
+    override fun onCardClicked(data: LaporkanModel?) {
         val intent = Intent(requireContext(), DetailLaporanActivity::class.java)
         val bundle = Bundle()
-        bundle.putParcelable(DATA_LAPORKAN,model)
+        bundle.putParcelable(DATA_LAPORKAN,data)
 
         intent.apply {
             putExtras(bundle)

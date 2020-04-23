@@ -5,8 +5,8 @@
             name="model"
             type="com.gproduction.yuklapor.data.model.LaporkanModel" />
         <variable
-            name="viewmodel"
-            type="com.gproduction.yuklapor.ui.home.fragment.HomeViewModel" />
+            name="listener"
+            type="com.gproduction.yuklapor.ui.home.adapter.OnClickInterface" />
     </data>
     <LinearLayout
         xmlns:tools="http://schemas.android.com/tools"
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="@dimen/_6sdp"
-            android:onClick="@{(v)->viewmodel.onCardClick(model)}"
+            android:onClick="@{()->listener.onCardClicked(model)}"
             android:foreground="?attr/selectableItemBackground"
             android:clickable="true"
             android:layout_margin="@dimen/_10sdp"
